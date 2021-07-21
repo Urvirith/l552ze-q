@@ -37,7 +37,7 @@
                 .globl   __Vectors_End
                 .globl   __Vectors_Size
 __Vectors:
-                .long    __INITIAL_SP                       /*     Initial Stack Pointer */
+                .long    __StackTop                         /*     Initial Stack Pointer */
                 .long    Reset_Handler                      /*     Reset Handler */
                 .long    NMI_Handler                        /* -14 NMI Handler */
                 .long    HardFault_Handler                  /* -13 Hard Fault Handler */
@@ -81,17 +81,17 @@ __Vectors_End:
                 .globl   Reset_Handler
                 .fnstart
 Reset_Handler:
-                ldr      r0, =__INITIAL_SP
+                ldr      r0, =__StackTop
                 msr      psp, r0
 
-                ldr      r0, =__STACK_LIMIT
+                ldr      r0, =__StackLimit
                 msr      msplim, r0
                 msr      psplim, r0
 
                 #if defined (__ARM_FEATURE_CMSE) && (__ARM_FEATURE_CMSE == 3U)
-                ldr      r0, =__STACK_SEAL
-                ldr      r1, =0xFEF5EDA5U
-                strd     r1,r1,[r0,#0]
+                #ldr      r0, =__StackSeal
+                #ldr      r1, =0xFEF5EDA5U
+                #strd     r1,r1,[r0,#0]
                 #endif
 
                 bl       SystemInit

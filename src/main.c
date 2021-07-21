@@ -36,12 +36,12 @@
 #define MASK_2_BIT         (uint32_t)0x00000003                             /* 2 bit mask, example 0011 = 0x03 */
 
 /* Extern Keyword Allows To Be Call */
-extern void system_init() {
+extern void SystemInit() {
     RCC_AHB2ENR |= (1 << PORTA_AHBEN);
     RCC_AHB2ENR |= (1 << PORTB_AHBEN);
 }
 
-extern void start() { 
+extern void _start() { 
     GPIOA_MODER &= (~(MASK_2_BIT << (LED_GRN * 2)));
     GPIOA_MODER |= (1 << (LED_GRN * 2));
     GPIOA_OTYPER &= (~(1 << LED_GRN));
