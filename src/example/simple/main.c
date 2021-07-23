@@ -4,7 +4,7 @@
 // VOLITILE TELLS THE COMPILER TO NOT OPTIMIZE THE MEMORY LOCATIONS 
 
 #include <stdint.h>
-//#include <L552ZE.h>
+#include <L552ZE.h>
 
 #define PORTC_PIN7          (uint32_t)7                                     /* USER GREEN LED on GPIO A Bus, Pin 5  */
 #define LED_GRN             PORTC_PIN7                                      /* USER GREEN LED on GPIO A Bus, Pin 5  */

@@ -3,7 +3,7 @@
 
 /* Register Base */
 /* Reset and Clock Control (RCC) */
-#define RCC_BASE:                   ((uint32_t)0x40021400)
+#define RCC_BASE:                   ((uint32_t)0X40021000)
 
 /* General Purpose I/O */
 #define GPIOA_BASE:                 ((uint32_t)0x42020000) 
