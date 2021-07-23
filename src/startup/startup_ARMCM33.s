@@ -79,7 +79,7 @@ Reset_Handler:
     msr      msplim, r0
 
 /* CMSIS System Initialization */
-    bl       system_init            /* SystemInit */ /* CALL THE SYSTEM INIT AREA IN THE CASE OF MY system_init */ 
+    bl       _system_init            /* SystemInit */ /* CALL THE SYSTEM INIT AREA IN THE CASE OF MY system_init */ 
 
     ldr      r4, =__copy_table_start__
     ldr      r5, =__copy_table_end__
@@ -122,7 +122,7 @@ Reset_Handler:
     b        .L_loop2
 .L_loop2_done:
 
-    bl       start                 /* _start */ /* CALL THE START AREA IN THE CASE OF MY start */
+    bl       _start                 /* _start */ /* CALL THE START AREA IN THE CASE OF MY start */
 
     .fnend
     .size    Reset_Handler, . - Reset_Handler

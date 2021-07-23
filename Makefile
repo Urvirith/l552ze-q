@@ -21,6 +21,14 @@ LINK_DIR 	:= ./src/linker
 START_DIR	:= ./src/startup
 OBJ_DIR		:= ./obj
 
+#ONLY ONE
+#STARTUP		:= startup_CMSIS.s
+STARTUP	:= startup_ARMCM33.s
+
+#ONLY ONE
+#LINKER		:= gcc_CMSIS.ld
+LINKER		:= gcc_arm.ld
+
 #	EXAMPLE OF AUTOMATIC VARIABLES
 #	%.o: %.c %.h common.h
 #		$(CC) $(CFLAGS) -c $<
@@ -63,7 +71,7 @@ build/main.bin: build/main.elf
 	$(OBJ) $(OBJFLAGS) $^ $@
 
 # Build An ELF 
-build/main.elf: $(LINK_DIR)/gcc_CMSIS.ld $(BLD_DIR)/main.o $(BLD_DIR)/startup.o
+build/main.elf: $(LINK_DIR)/$(LINKER) $(BLD_DIR)/main.o $(BLD_DIR)/startup.o
 	$(LD) -Os -s $(LDFLAGS) $^ -o $@
 
 # Build An Single Object 
@@ -71,7 +79,7 @@ build/main.o: $(OBJS)
 	$(LD) -r $^ -o $@
 
 # Build Dependances
-$(BLD_DIR)/startup.o: $(START_DIR)/startup_CMSIS.s
+$(BLD_DIR)/startup.o: $(START_DIR)/$(STARTUP)
 	$(AS) $< $(ASFLAGS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(SRC_DIR)/%.h

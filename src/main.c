@@ -36,7 +36,7 @@
 #define MASK_2_BIT         (uint32_t)0x00000003                             /* 2 bit mask, example 0011 = 0x03 */
 
 /* Extern Keyword Allows To Be Call */
-extern void SystemInit() {
+extern void _system_init() {
     RCC_AHB2ENR |= (1 << PORTA_AHBEN);
     RCC_AHB2ENR |= (1 << PORTB_AHBEN);
 }
@@ -56,9 +56,9 @@ extern void _start() {
     while (1) {
         for (i = 0; i < 1200000; ++i) {
             if (i == 300000) {
-                GPIOB_BSRR = (1 << LED_GRN);
+                GPIOA_BSRR = (1 << LED_GRN);
             } else if (i == 0) {
-                GPIOB_BSRR = (1 << (LED_GRN + 16));
+                GPIOA_BSRR = (1 << (LED_GRN + 16));
             }
 
             if (i == 600000) {
@@ -68,9 +68,9 @@ extern void _start() {
             }
 
             if (i == 900000) {
-                GPIOB_BSRR = (1 << LED_BLU);
+                GPIOA_BSRR = (1 << LED_RED);
             } else if (i == 0) {
-                GPIOB_BSRR = (1 << (LED_BLU + 16));
+                GPIOA_BSRR = (1 << (LED_RED + 16));
             }
         }
     }

@@ -94,7 +94,7 @@ Reset_Handler:
                 #strd     r1,r1,[r0,#0]
                 #endif
 
-                bl       SystemInit
+                bl       _system_init
 
                 ldr      r4, =__copy_table_start__
                 ldr      r5, =__copy_table_end__
