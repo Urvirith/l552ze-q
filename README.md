@@ -13,4 +13,6 @@ https://www.st.com/resource/en/reference_manual/rm0438-stm32l552xx-and-stm32l562
 Programming Manual
 https://www.st.com/resource/en/programming_manual/pm0264-stm32-cortexm33-mcus-programming-manual-stmicroelectronics.pdf
 Board Specifics
-https://www.st.com/resource/en/datasheet/stm32l432kc.pdf
+https://www.st.com/resource/en/datasheet/stm32l552ze.pdf
+Cube Programmer
+https://www.st.com/content/ccc/resource/technical/document/user_manual/group0/76/3e/bd/0d/cf/4d/45/25/DM00403500/files/DM00403500.pdf/jcr:content/translations/en.DM00403500.pdf

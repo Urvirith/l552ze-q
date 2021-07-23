@@ -22,12 +22,12 @@ START_DIR	:= ./src/startup
 OBJ_DIR		:= ./obj
 
 #ONLY ONE
-#STARTUP		:= startup_CMSIS.s
-STARTUP	:= startup_ARMCM33.s
+STARTUP		:= startup_CMSIS.s
+#STARTUP	:= startup_ARMCM33.s
 
 #ONLY ONE
-#LINKER		:= gcc_CMSIS.ld
-LINKER		:= gcc_arm.ld
+LINKER		:= gcc_CMSIS.ld
+#LINKER		:= gcc_arm.ld
 
 #	EXAMPLE OF AUTOMATIC VARIABLES
 #	%.o: %.c %.h common.h
@@ -92,5 +92,13 @@ clean:
 	rm -f $(BLD_DIR)/*.bin
 
 flash:
-	st-flash write $(BIN_DIR)main.bin 0x08000000
+	STM32_Programmer_CLI -c port=SWD -w $(BLD_DIR)/main.bin 0x08000000
 
+info:
+	STM32_Programmer_CLI -c port=SWD
+
+reset:
+	STM32_Programmer_CLI -c port=SWD -rst
+
+hard_reset:
+	STM32_Programmer_CLI -c port=SWD -hardRst
