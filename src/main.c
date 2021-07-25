@@ -25,7 +25,7 @@ extern void _start() {
     gpio_type(GPIOC, LED_GRN_PIN, Gpio_Output, Gpio_Push_Pull, 0);
     /* Timer Setup */
     timer_open(TIMER2, Timer_Cont, Timer_Upcount);
-    timer_set_time(TIMER2, 1000, 16000, 200);
+    timer_set_time(TIMER2, 1000, 16000, 400);
     timer_start(TIMER2);
     /* Usart Setup */
     gpio_type(GPIOA, USART2_TX, USART_MODE, USART_OTYPE, USART_AF);
