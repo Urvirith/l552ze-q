@@ -27,6 +27,13 @@
 #define ORECR_BIT           BIT_3
 #define IDLECF_BIT          BIT_4
 #define RTOCF_BIT           BIT_11
+/* ISR */
+#define FE_BIT              BIT_1
+#define ORE_BIT             BIT_3
+#define IDLE_BIT            BIT_4
+#define RXNE_BIT            BIT_5
+#define TC_BIT              BIT_6
+#define TXE_BIT             BIT_7
 
 
 /* Register Offsets */
@@ -36,13 +43,6 @@
 #define BAUD_RATE_OFFSET    0
 /* RTOR */
 #define RTO_TIMEO_OFFSET    0
-/* ISR */
-#define FE_OFFSET           1
-#define ORE_OFFSET          3
-#define IDLE_OFFSET         4
-#define RXNE_OFFSET         5
-#define TC_OFFSET           6
-#define TXE_OFFSET          7
      
 /* Register Shifts */
 /* CR1 */
@@ -104,7 +104,7 @@ void usart_open(USART_TypeDef *ptr, uint32_t word_len, uint32_t stop, uint32_t b
 //   The RXNE flag can also be cleared by writing 1 to the RXFRQ in the USART_RQR register.
 //   The RXNE bit must be cleared before the end of the reception of the next character to avoid an overrun error.
 bool usart_get_read(USART_TypeDef *ptr){
-    return get_ptr_vol_bit_u32(&ptr->ISR, RXNE_OFFSET);
+    return get_ptr_vol_bit_u32(&ptr->ISR, RXNE_BIT);
 }
 
 // MOVE TO a uint8_t pointer can slim down the data being transfered here. Set up test for reading USART and reflecting!!
@@ -115,7 +115,7 @@ int usart_read(USART_TypeDef *ptr, uint8_t* buf, int len){
     set_ptr_vol_raw_u32(&ptr->ICR, ORECR_BIT);
 
     int i = 0; // Index based on len
-    int t = 0;  // Index for loop trap, if line goes idle, prevent being trapped by dead line. Convert to fail timer for more accurate usage.
+    int t = 0; // Index for loop trap, if line goes idle, prevent being trapped by dead line. Convert to fail timer for more accurate usage.
 
     while(i < len){
         if (usart_get_read(ptr)) {
@@ -123,7 +123,7 @@ int usart_read(USART_TypeDef *ptr, uint8_t* buf, int len){
             i++;
         }
 
-        if (get_ptr_vol_bit_u32(&ptr->ISR, FE_OFFSET) | get_ptr_vol_bit_u32(&ptr->ISR, IDLE_OFFSET) | get_ptr_vol_bit_u32(&ptr->ISR, ORE_OFFSET)) {
+        if (get_ptr_vol_bit_u32(&ptr->ISR, FE_BIT) | get_ptr_vol_bit_u32(&ptr->ISR, IDLE_BIT) | get_ptr_vol_bit_u32(&ptr->ISR, ORE_BIT)) {
             return -1;
         }
 
@@ -157,13 +157,13 @@ void usart_write(USART_TypeDef *ptr, uint8_t* buf, int len){
 
     int i = 0;
     while(i < len){
-        if (get_ptr_vol_bit_u32(&ptr->ISR, TXE_OFFSET)) {
+        if (get_ptr_vol_bit_u32(&ptr->ISR, TXE_BIT)) {
             set_ptr_vol_raw_u8((volatile uint8_t *)&ptr->TDR, buf[i]);
             i++;
         }
     }
 
-    while (get_ptr_vol_bit_u32(&ptr->ISR, TC_OFFSET) == false) {
+    while (get_ptr_vol_bit_u32(&ptr->ISR, TC_BIT) == false) {
         // SPIN TO WAIT UNTILL THE BIT IS COMPLETE#
     }
 

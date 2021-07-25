@@ -25,6 +25,18 @@ typedef struct {
     volatile uint32_t BRR;      // Bit Reset Register
 } GPIO_TypeDef;
 
+/* Register Masks */
+#define MODER_MASK          MASK_2_BIT      /* Mode is mask required, here we set the mask to two bit 11 */
+#define OSPEED_MASK         MASK_2_BIT      /* Mode is mask required, here we set the mask to two bit 11 */
+#define PUPD_MASK           MASK_2_BIT      /* Mode is mask required, here we set the mask to two bit 11 */
+#define AF_MASK             MASK_4_BIT      /* Mode is mask required, here we set the mask to four bit 1111 */
+
+/* Register Offsets */
+#define MODER_OFFSET        2               /* Mode is two bits wide, shift by an offset of 2 */
+#define OSPEED_OFFSET       2               /* Output Speed is two bits wide, shift by an offset of 2 */
+#define PUPD_OFFSET         2               /* Pu Speed is two bits wide, shift by an offset of 2 */
+#define AF_OFFSET           4               /* Alternate Function is four bits wide, shift by an offset of 4 */
+
 /* Enumerations */
 // 00: Input mode     01: General purpose output mode     10: Alternate function mode     11: Analog mode (reset state)
 enum gpio_mode {Gpio_Input, Gpio_Output, Gpio_Alternate, Gpio_Analogue};

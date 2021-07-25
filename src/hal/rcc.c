@@ -1,15 +1,7 @@
 #include "common.h"
 #include "rcc.h"
 
-/* Reset and Clock Control (RCC) */
-
-#define MSION           BIT_0       
-#define MSIRGSEL        BIT_3     
-#define MSIRANGE        4
-#define MSIRANGE_MASK   MASK_4_BIT      
-
-// NOTE...... FIGURE OUT HOW TO GENERIC NAMES FROM THIS FILE....
-
+/* Reset and Clock Control (RCC) */  
 /* Set the clock speed of the chipset */
 void rcc_write_msi_range(RCC_TypeDef *ptr, uint32_t freq_khz) {
     clr_ptr_vol_bit_u32(&ptr->CR, MSION);

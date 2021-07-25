@@ -55,6 +55,19 @@ typedef struct {
     volatile uint32_t DLYCFGR;          // OCTOSPI delay configuration register
 } RCC_TypeDef;
 
+/* Register Masks */
+/* CR */
+#define MSIRANGE_MASK   MASK_4_BIT 
+
+/* Register Bits */
+/* CR */
+#define MSION           BIT_0       
+#define MSIRGSEL        BIT_3
+
+/* Register Offsets */
+/* CR */    
+#define MSIRANGE        4 
+
 /* Public Functions */
 void rcc_write_msi_range(RCC_TypeDef *ptr, uint32_t freq_khz);
 void rcc_write_ahb1_enr(RCC_TypeDef *ptr, uint32_t bit_num);

@@ -3,7 +3,7 @@
 
 // USART DRIVER
 // ARM USART MODULE
-// USART Description - is on pg 1194
+// USART Description - is on pg 1159
 
     // Any USART bidirectional communication requires a minimum of two pins: Receive data In (RX) and Transmit data Out (TX):
     // • RX: Receive data Input. This is the serial data input.

@@ -47,47 +47,38 @@
 
 /* Serial Peripheral Interface */
 #define CAN_BASE                    ((uint32_t)0x4000A400)
-
-
-/* NUCLEO BOARD PIN OUT SPECIFICS - NUCLEO - L552ZE-Q */
-#define PORTC_PIN7                  (uint32_t)7                             /* USER GREEN LED on GPIO C Bus, Pin 7  */
-#define LED_GRN_PIN                 PORTC_PIN7                              /* USER GREEN LED on GPIO C Bus, Pin 7  */
-#define LED_GRN                     BIT_7                                   /* USER GREEN LED on GPIO C Bus, Pin 7  */
-#define PORTB_PIN7                  (uint32_t)7                             /* USER BLUE LED on GPIO B Bus, Pin 7   */
-#define LED_BLU_PIN                 PORTB_PIN7                              /* USER BLUE LED on GPIO B Bus, Pin 7   */
-#define LED_BLU                     BIT_7                                   /* USER BLUE LED on GPIO B Bus, Pin 7   */
-#define PORTA_PIN9                  (uint32_t)9                             /* USER RED LED on GPIO A Bus, Pin 9    */
-#define LED_RED_PIN                 PORTA_PIN9                              /* USER RED LED on GPIO A Bus, Pin 9    */
-#define LED_RED                     BIT_9                                   /* USER RED LED on GPIO A Bus, Pin 9    */
       
 /* Reset and Clock Control (RCC) */
-#define RCC_PORTA_AHB2EN            BIT_0                                   /* GPIOA Enable is located on AHB2 Board Bit 0 */
-#define RCC_PORTB_AHB2EN            BIT_1                                   /* GPIOB Enable is located on AHB2 Board Bit 1 */
-#define RCC_PORTC_AHB2EN            BIT_2                                   /* GPIOC Enable is located on AHB2 Board Bit 2 */
+#define RCC_GPIOA_AHB2EN            BIT_0                                   /* GPIOA Enable is located on AHB2 Board Bit 0 */
+#define RCC_GPIOB_AHB2EN            BIT_1                                   /* GPIOB Enable is located on AHB2 Board Bit 1 */
+#define RCC_GPIOC_AHB2EN            BIT_2                                   /* GPIOC Enable is located on AHB2 Board Bit 2 */
 
 /* General Purpose I/O */
-//#define USER_LED:                   u32 = 3;
-//#define USER_LED_BIT:               u32 = common::BIT_3;
-
-/* GPIO SETUP */
-//#define USER_LED_MODE:              gpio::Mode = gpio::Mode::Out;
-//#define USER_LED_OTYPE:             gpio::OType = gpio::OType::PushPull;
-//#define USER_LED_AF:                gpio::AltFunc = gpio::AltFunc::Af0;
+/* NUCLEO BOARD PIN OUT SPECIFICS - NUCLEO - L552ZE-Q */
+#define GPIOC_PIN7                  (uint32_t)7                             /* USER GREEN LED on GPIO C Bus, Pin 7  */
+#define LED_GRN_PIN                 GPIOC_PIN7                              /* USER GREEN LED on GPIO C Bus, Pin 7  */
+#define LED_GRN                     BIT_7                                   /* USER GREEN LED on GPIO C Bus, Pin 7  */
+#define GPIOB_PIN7                  (uint32_t)7                             /* USER BLUE LED on GPIO B Bus, Pin 7   */
+#define LED_BLU_PIN                 GPIOB_PIN7                              /* USER BLUE LED on GPIO B Bus, Pin 7   */
+#define LED_BLU                     BIT_7                                   /* USER BLUE LED on GPIO B Bus, Pin 7   */
+#define GPIOA_PIN9                  (uint32_t)9                             /* USER RED LED on GPIO A Bus, Pin 9    */
+#define LED_RED_PIN                 GPIOA_PIN9                              /* USER RED LED on GPIO A Bus, Pin 9    */
+#define LED_RED                     BIT_9                                   /* USER RED LED on GPIO A Bus, Pin 9    */
 
 /* Timer */
-//#define TIMER2_RCC_APB1R1_ENABLE:   u32 = common::BIT_0;
+#define RCC_TIMER2_APB1R1EN         BIT_0
 
 /* USART (Universal Synchronous and Asynchronous Receiver Transmitter) */
-//#define USART2_RCC_APB1R1_ENABLE:   u32 = common::BIT_17;
-//#define PORTA_PIN2:                 u32 = 2;    //A7    TX
-//#define PORTA_PIN3:                 u32 = 3;    //A2    RX
-//#define USART2_TX:                  u32 = PORTA_PIN2;
-//#define USART2_RX:                  u32 = PORTA_PIN3;
+#define RCC_USART2_APB1R1EN         BIT_17
+#define GPIOA_PIN2                  (uint32_t)2                             /* GPIO Bus D Pin 2 TX    */
+#define GPIOA_PIN3                  (uint32_t)3                             /* GPIO Bus D Pin 3 RX    */
+#define USART2_TX                   GPIOA_PIN2
+#define USART2_RX                   GPIOA_PIN3
 
 /* GPIO SETUP */
-//#define USART_MODE:                 gpio::Mode = gpio::Mode::Alt;
-//#define USART_OTYPE:                gpio::OType = gpio::OType::PushPull;
-//#define USART_AF:                   gpio::AltFunc = gpio::AltFunc::Af7;
+#define USART_MODE                  Gpio_Alternate
+#define USART_OTYPE                 Gpio_Push_Pull
+#define USART_AF                    AF7
 
 /* I2C 1*/
 //#define I2C1_RCC_APB1R1_ENABLE:     u32 = common::BIT_21;
@@ -95,13 +86,6 @@
 //#define PORTB_PIN7:                 u32 = 7;    //D4    SDA
 //#define I2C1_SCL:                   u32 = PORTB_PIN6;
 //#define I2C1_SDA:                   u32 = PORTB_PIN7;
-
-/* CAN */
-//#define CAN_RCC_APB1R1_ENABLE:      u32 = common::BIT_25;
-//#define PORTA_PIN11:                u32 = 11;   //D10   RX
-//#define PORTA_PIN12:                u32 = 12;   //D2    TX
-//#define CAN_RX:                     u32 = PORTA_PIN11;
-//#define CAN_TX:                     u32 = PORTA_PIN12;
 
 /* GPIO SETUP */
 //#define CAN_MODE:                   gpio::Mode = gpio::Mode::Alt;

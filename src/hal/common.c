@@ -10,7 +10,6 @@ bool get_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t value) {
     }
 }
 
-
 /* Set a pointer bit in a u32 ptr Example value (1 << 5), 
    If passing a stuct pointer ie. GPIOB->ODR, you can pass by reference &GPIO->ODR */
 void set_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t value){
