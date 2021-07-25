@@ -46,10 +46,7 @@ LINKER		:= gcc_CMSIS.ld
 #	%.o: 	%.c %.h common.h
 #		$(CC) $(CFLAGS) -c $^
 
-OBJS =	$(OBJ_DIR)/common.o \
-			$(OBJ_DIR)/gpio.o \
-				$(OBJ_DIR)/rcc.o \
-					$(OBJ_DIR)/main.o
+OBJS =	$(OBJ_DIR)/main.o
 
 #	EXAMPLE OF AUTOMATIC VARIABLES
 #	%.o: %.c %.h common.h
@@ -67,18 +64,18 @@ OBJS =	$(OBJ_DIR)/common.o \
 #			(All Source)
 #	%.o: 	%.c %.h common.h
 #		$(CC) $(CFLAGS) -c $^
-release: $(BLD_DIR)/main.bin
+release: build/main.bin
 
 # Build An ELF 
-$(BLD_DIR)/main.bin: $(BLD_DIR)/main.elf
+build/main.bin: build/main.elf
 	$(OBJ) $(OBJFLAGS) $^ $@
 
 # Build An ELF 
-$(BLD_DIR)/main.elf: $(LINK_DIR)/$(LINKER) $(BLD_DIR)/main.o $(BLD_DIR)/startup.o
+build/main.elf: $(LINK_DIR)/$(LINKER) $(BLD_DIR)/main.o $(BLD_DIR)/startup.o
 	$(LD) -Os -s $(LDFLAGS) $^ -o $@
 
 # Build An Single Object 
-$(BLD_DIR)/main.o: $(OBJS)
+build/main.o: $(OBJS)
 	$(LD) -r $^ -o $@
 
 # Build Dependances
@@ -87,9 +84,6 @@ $(BLD_DIR)/startup.o: $(START_DIR)/$(STARTUP)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(SRC_DIR)/%.h
 	$(CC) $(CFLAGS) -c  $< -o $@
-
-$(OBJ_DIR)/%.o: $(HAL_DIR)/%.c $(HAL_DIR)/%.h $(HAL_DIR)/common.h
-	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ_DIR)/*.o
