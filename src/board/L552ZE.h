@@ -52,6 +52,9 @@
 #define RCC_GPIOA_AHB2EN            BIT_0                                   /* GPIOA Enable is located on AHB2 Board Bit 0 */
 #define RCC_GPIOB_AHB2EN            BIT_1                                   /* GPIOB Enable is located on AHB2 Board Bit 1 */
 #define RCC_GPIOC_AHB2EN            BIT_2                                   /* GPIOC Enable is located on AHB2 Board Bit 2 */
+#define RCC_GPIOD_AHB2EN            BIT_3                                   /* GPIOD Enable is located on AHB2 Board Bit 3 */
+#define RCC_GPIOE_AHB2EN            BIT_4                                   /* GPIOE Enable is located on AHB2 Board Bit 4 */
+#define RCC_GPIOF_AHB2EN            BIT_5                                   /* GPIOE Enable is located on AHB2 Board Bit 4 */
 
 /* General Purpose I/O */
 /* NUCLEO BOARD PIN OUT SPECIFICS - NUCLEO - L552ZE-Q */
@@ -64,21 +67,37 @@
 #define GPIOA_PIN9                  (uint32_t)9                             /* USER RED LED on GPIO A Bus, Pin 9    */
 #define LED_RED_PIN                 GPIOA_PIN9                              /* USER RED LED on GPIO A Bus, Pin 9    */
 #define LED_RED                     BIT_9                                   /* USER RED LED on GPIO A Bus, Pin 9    */
+#define GPIOF_PIN12                 (uint32_t)12                            /* USER PIN on GPIO F Bus, Pin 12       */
+#define GPIOF_PIN13                 (uint32_t)13                            /* USER PIN on GPIO F Bus, Pin 13       */
+#define GPIOE_PIN9                  (uint32_t)9                             /* USER PIN on GPIO E Bus, Pin 9        */
+#define GPIOE_PIN11                 (uint32_t)11                            /* USER PIN on GPIO E Bus, Pin 11       */
+#define GPIOF_PIN14                 (uint32_t)14                            /* USER PIN on GPIO F Bus, Pin 14       */
+#define GPIOE_PIN13                 (uint32_t)13                            /* USER PIN on GPIO E Bus, Pin 13       */
+#define GPIOF_PIN15                 (uint32_t)15                            /* USER PIN on GPIO F Bus, Pin 15       */
+#define AXIS_ENABLE                 GPIOF_PIN12
+#define DIR_Z_AXIS                  GPIOF_PIN13
+#define DIR_Y_AXIS                  GPIOE_PIN9
+#define DIR_X_AXIS                  GPIOE_PIN11
+#define STEP_Z_AXIS                 GPIOF_PIN14
+#define STEP_Y_AXIS                 GPIOE_PIN13
+#define STEP_X_AXIS                 GPIOF_PIN15
 
 /* Timer */
 #define RCC_TIMER2_APB1R1EN         BIT_0
+#define RCC_TIMER3_APB1R1EN         BIT_1 
 
 /* USART (Universal Synchronous and Asynchronous Receiver Transmitter) */
-#define RCC_USART2_APB1R1EN         BIT_17
-#define GPIOA_PIN2                  (uint32_t)2                             /* GPIO Bus D Pin 2 TX    */
-#define GPIOA_PIN3                  (uint32_t)3                             /* GPIO Bus D Pin 3 RX    */
-#define USART2_TX                   GPIOA_PIN2
-#define USART2_RX                   GPIOA_PIN3
+#define RCC_USART3_APB1R1EN         BIT_18
+#define GPIOD_PIN8                  (uint32_t)8                             /* GPIO Bus D Pin 8 TX - D1   */
+#define GPIOD_PIN9                  (uint32_t)9                             /* GPIO Bus D Pin 9 RX - D0   */
+#define USART3_TX                   GPIOD_PIN8
+#define USART3_RX                   GPIOD_PIN9
 
 /* GPIO SETUP */
 #define USART_MODE                  Gpio_Alternate
 #define USART_OTYPE                 Gpio_Push_Pull
 #define USART_AF                    AF7
+
 
 /* I2C 1*/
 //#define I2C1_RCC_APB1R1_ENABLE:     u32 = common::BIT_21;
