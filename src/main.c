@@ -29,7 +29,7 @@ extern void _start() {
     gpio_type(GPIOC, LED_GRN_PIN, Gpio_Output, Gpio_Push_Pull, 0);
     /* Timer Setup */
     timer_open(TIMER2, Timer_Cont, Timer_Upcount);
-    timer_set_time(TIMER2, 1000, 16000, 400);
+    timer_set_time(TIMER2, 5000, 16000, 5000);
     timer_open(TIMER3, Timer_Ons, Timer_Upcount);
     timer_set_time(TIMER3, 5, 16, 0);
     timer_start(TIMER2);
@@ -107,11 +107,11 @@ void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pul
 
     for (volatile int i = 0; i < steps; i++) {
         gpio_set_pin(pulse_ptr, pin_pulse);
-        for (volatile int j = 0; j < 8000; j++) {};
-        //delay(TIMER3, 50);
+        //for (volatile int j = 0; j < 1000; j++) {};
+        delay(TIMER3, 1000);
         gpio_clr_pin(pulse_ptr, pin_pulse); 
-        for (volatile int j = 0; j < 8000; j++) {};
-        //delay(TIMER3, 50);
+        //for (volatile int j = 0; j < 1000; j++) {};
+        delay(TIMER3, 1000);
     }
 }
 

@@ -1,6 +1,10 @@
 #ifndef L552ZE_H_
 #define L552ZE_H_
 
+/* Notes */
+/* 1 Mhz = 1,000,000 CPS */
+/* 1 Mhz = 1 CPus */
+
 /* Register Base */
 /* Reset and Clock Control (RCC) */
 #define RCC_BASE                    ((uint32_t)0X40021000)                  /* RCC base address */
