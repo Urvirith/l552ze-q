@@ -14,7 +14,7 @@
 
 enum motor_dir {MotorReverse, MotorForward};
 
-void loop(bool dir, GPIO_TypeDef * ptr, uint32_t pin, uint32_t steps);
+void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pulse_ptr, uint32_t pin_pulse, uint32_t steps);
 void delay(TIMER_TypeDef * ptr, uint32_t time_us);
 
 #endif /* MAIN_H_ */

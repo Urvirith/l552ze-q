@@ -45,10 +45,18 @@ extern void _start() {
     gpio_type(GPIOE, STEP_Y_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
     gpio_type(GPIOF, STEP_X_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
     gpio_type(GPIOF, AXIS_ENABLE, Gpio_Output, Gpio_Push_Pull, 0);
+    gpio_pupd(GPIOF, DIR_Z_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOE, DIR_Y_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOE, DIR_X_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOF, STEP_Z_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOE, STEP_Y_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOF, STEP_X_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOF, AXIS_ENABLE, Gpio_NoPuPd);
 
-    gpio_clr_pin(GPIOF, AXIS_ENABLE);
+    gpio_clr_pin(GPIOF, AXIS_ENABLE_PIN);
 
     uint8_t buf[8] = {0x03, 0x01, 0x02, 0x03 ,0x04, 0x05, 0x06, 0x0D};
+    bool flip = 0;
 
     uint8_t i = 0;
     while (1) {
@@ -66,11 +74,18 @@ extern void _start() {
                 i = 0;
             }
 
+            if (flip == 0) {
+                loop(0, GPIOE, DIR_X_AXIS_PIN, GPIOF, STEP_X_AXIS_PIN, 200);
+                flip = 1;
+            } else {
+                loop(1, GPIOE, DIR_X_AXIS_PIN, GPIOF, STEP_X_AXIS_PIN, 200);
+                flip = 0;
+            }
+
             buf[1] = i;
             usart_write(USART3, buf, 8);
 
             timer_clr_flag(TIMER2);
-
             i++;
         }
     }
@@ -80,20 +95,23 @@ extern void __aeabi_unwind_cpp_pr0() {
     //loop {}
 }
 
-void loop(bool dir, GPIO_TypeDef * ptr, uint32_t pin, uint32_t steps) { 
+void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pulse_ptr, uint32_t pin_pulse, uint32_t steps) { 
     if (dir == MotorForward) {
-        gpio_set_pin(ptr, pin);
+        gpio_set_pin(dir_ptr, pin_dir);
     } else {
-        gpio_clr_pin(ptr, pin);
+        gpio_clr_pin(dir_ptr, pin_dir);
     }
 
     delay(TIMER3, 50);
+    //for (volatile int j = 0; j < 200; j++) {};
 
-    for (int i = 0; i < steps; i++) {
-        gpio_set_pin(ptr, pin);
-        delay(TIMER3, 5);
-        gpio_clr_pin(ptr, pin); 
-        delay(TIMER3, 5);
+    for (volatile int i = 0; i < steps; i++) {
+        gpio_set_pin(pulse_ptr, pin_pulse);
+        for (volatile int j = 0; j < 8000; j++) {};
+        //delay(TIMER3, 50);
+        gpio_clr_pin(pulse_ptr, pin_pulse); 
+        for (volatile int j = 0; j < 8000; j++) {};
+        //delay(TIMER3, 50);
     }
 }
 

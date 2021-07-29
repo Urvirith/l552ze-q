@@ -81,6 +81,13 @@
 #define STEP_Z_AXIS                 GPIOF_PIN14
 #define STEP_Y_AXIS                 GPIOE_PIN13
 #define STEP_X_AXIS                 GPIOF_PIN15
+#define AXIS_ENABLE_PIN             BIT_12
+#define DIR_Z_AXIS_PIN              BIT_13
+#define DIR_Y_AXIS_PIN              BIT_9
+#define DIR_X_AXIS_PIN              BIT_11
+#define STEP_Z_AXIS_PIN             BIT_14
+#define STEP_Y_AXIS_PIN             BIT_13
+#define STEP_X_AXIS_PIN             BIT_15
 
 /* Timer */
 #define RCC_TIMER2_APB1R1EN         BIT_0
