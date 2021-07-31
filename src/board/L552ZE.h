@@ -95,7 +95,8 @@
 
 /* Timer */
 #define RCC_TIMER2_APB1R1EN         BIT_0
-#define RCC_TIMER3_APB1R1EN         BIT_1 
+#define RCC_TIMER3_APB1R1EN         BIT_1
+#define RCC_TIMER4_APB1R1EN         BIT_2
 
 /* USART (Universal Synchronous and Asynchronous Receiver Transmitter) */
 #define RCC_USART3_APB1R1EN         BIT_18

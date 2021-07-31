@@ -8,6 +8,8 @@
 #include "hal/usart.h"
 #include "main.h"
 
+volatile bool toggle = 0;
+
 /* Extern Keyword Allows To Be Call */
 extern void _system_init() {
     rcc_write_msi_range(RCC, Clk16MHz);
@@ -19,6 +21,7 @@ extern void _system_init() {
     rcc_write_ahb2_enr(RCC, RCC_GPIOF_AHB2EN);
     rcc_write_apb1_enr1(RCC, RCC_TIMER2_APB1R1EN);
     rcc_write_apb1_enr1(RCC, RCC_TIMER3_APB1R1EN);
+    rcc_write_apb1_enr1(RCC, RCC_TIMER4_APB1R1EN);
     rcc_write_apb1_enr1(RCC, RCC_USART3_APB1R1EN);
 }
 
@@ -29,7 +32,7 @@ extern void _start() {
     gpio_type(GPIOC, LED_GRN_PIN, Gpio_Output, Gpio_Push_Pull, 0);
     /* Timer Setup */
     timer_open(TIMER2, Timer_Cont, Timer_Upcount);
-    timer_set_time(TIMER2, 5000, 16000, 5000);
+    timer_set_time(TIMER2, 1000, 16000, 5000);
     timer_open(TIMER3, Timer_Ons, Timer_Upcount);
     timer_set_time(TIMER3, 5, 16, 0);
     timer_start(TIMER2);
@@ -62,18 +65,16 @@ extern void _start() {
     while (1) {
         if (timer_get_flag(TIMER2)) {
             if (i == 1) {
-                gpio_set_pin(GPIOA, LED_RED);
-            } else if (i == 2) {
                 gpio_set_pin(GPIOB, LED_BLU);
-            } else if (i == 3) {
+            } else if (i == 2) {
                 gpio_set_pin(GPIOC, LED_GRN);
-            } else if (i > 3) {
-                gpio_clr_pin(GPIOA, LED_RED);
+            } else if (i > 2) {
                 gpio_clr_pin(GPIOB, LED_BLU);
                 gpio_clr_pin(GPIOC, LED_GRN);
                 i = 0;
             }
 
+            /*
             if (flip == 0) {
                 loop(0, GPIOE, DIR_X_AXIS_PIN, GPIOF, STEP_X_AXIS_PIN, 200);
                 flip = 1;
@@ -81,7 +82,8 @@ extern void _start() {
                 loop(1, GPIOE, DIR_X_AXIS_PIN, GPIOF, STEP_X_AXIS_PIN, 200);
                 flip = 0;
             }
-
+            */
+           
             buf[1] = i;
             usart_write(USART3, buf, 8);
 
@@ -127,4 +129,16 @@ void delay(TIMER_TypeDef * ptr, uint32_t time_us) {
     timer_stop(ptr);
     timer_clr_count(ptr);
     timer_clr_flag(ptr);
+}
+
+void Timer4InteruptHandler() {
+    if (toggle == true) {
+        gpio_clr_pin(GPIOA, LED_RED);
+        toggle = false;
+    } else {
+        gpio_set_pin(GPIOA, LED_RED);
+        toggle = true;
+    }
+
+    timer_clr_flag(TIMER4);
 }

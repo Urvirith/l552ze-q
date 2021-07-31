@@ -49,14 +49,16 @@ void timer_stop(TIMER_TypeDef *ptr) {
 
 void timer_set_time(TIMER_TypeDef *ptr, uint32_t time, uint32_t clock_speed, uint32_t prescale) {
     uint32_t value = 0;
+    uint32_t psc = 0;
 
     if (prescale == 0) {
         value = time * clock_speed;
     } else {
         value = (time * clock_speed) / prescale;
+        psc = prescale - 1;
     }
 
-    set_ptr_vol_raw_u32(&ptr->PSC, prescale);
+    set_ptr_vol_raw_u32(&ptr->PSC, psc);
     set_ptr_vol_raw_u32(&ptr->ARR, value);
 }
 

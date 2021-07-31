@@ -10,6 +10,7 @@
 #define GPIOF               ((GPIO_TypeDef *) GPIOF_BASE)
 #define TIMER2              ((TIMER_TypeDef *) TIMER2_BASE)
 #define TIMER3              ((TIMER_TypeDef *) TIMER3_BASE)
+#define TIMER4              ((TIMER_TypeDef *) TIMER4_BASE)
 #define USART3              ((USART_TypeDef *) USART3_BASE)
 
 enum motor_dir {MotorReverse, MotorForward};
