@@ -71,6 +71,7 @@ enum timer_direction {Timer_Upcount, Timer_Down};
 void timer_open(TIMER_TypeDef *ptr, uint32_t ons, uint32_t dir);
 bool timer_get_flag(TIMER_TypeDef *ptr);
 void timer_clr_flag(TIMER_TypeDef *ptr);
+void timer_set_interrupt(TIMER_TypeDef *ptr);
 uint32_t timer_read_count(TIMER_TypeDef *ptr);
 void timer_clr_count(TIMER_TypeDef *ptr);
 void timer_start(TIMER_TypeDef *ptr);

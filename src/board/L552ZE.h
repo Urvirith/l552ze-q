@@ -49,9 +49,13 @@
 #define SPI2_BASE                   ((uint32_t)0x40003800)
 #define SPI3_BASE                   ((uint32_t)0x40003C00)
 
-/* Serial Peripheral Interface */
+/* CAN Interface */
 #define CAN_BASE                    ((uint32_t)0x4000A400)
-      
+
+/* System Control Base */
+#define SCS_BASE                    ((uint32_t)0xE000E000)
+#define NVIC_BASE                   ((uint32_t)0xE000E100)
+
 /* Reset and Clock Control (RCC) */
 #define RCC_GPIOA_AHB2EN            BIT_0                                   /* GPIOA Enable is located on AHB2 Board Bit 0 */
 #define RCC_GPIOB_AHB2EN            BIT_1                                   /* GPIOB Enable is located on AHB2 Board Bit 1 */

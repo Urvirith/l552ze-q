@@ -31,6 +31,10 @@ void timer_clr_flag(TIMER_TypeDef *ptr) {
     clr_ptr_vol_bit_u32(&ptr->SR, UPDATE_BIT);
 }
 
+void timer_set_interrupt(TIMER_TypeDef *ptr) {
+    set_ptr_vol_bit_u32(&ptr->DIER, UPDATE_BIT);
+}
+
 uint32_t timer_read_count(TIMER_TypeDef *ptr) {
     return get_ptr_vol_raw_u32(&ptr->CNT);
 }

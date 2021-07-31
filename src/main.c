@@ -9,6 +9,9 @@
 #include "main.h"
 
 volatile bool toggle = 0;
+#define NVIC_EN     *((volatile uint32_t *) (NVIC_BASE + 0x04))      /* Clock Control Register */
+#define TIM4_NVIC = (uint32_t)47;
+#define TIM4_NVIC_OFFSET = 47 - TIM4_NVIC; 
 
 /* Extern Keyword Allows To Be Call */
 extern void _system_init() {
@@ -35,7 +38,12 @@ extern void _start() {
     timer_set_time(TIMER2, 1000, 16000, 5000);
     timer_open(TIMER3, Timer_Ons, Timer_Upcount);
     timer_set_time(TIMER3, 5, 16, 0);
+    timer_open(TIMER4, Timer_Cont, Timer_Upcount);
+    timer_set_time(TIMER4, 5000, 16000, 5000);
+    timer_set_interrupt(TIMER4);
     timer_start(TIMER2);
+    timer_start(TIMER4);
+    NVIC_EN = (1 << 15);
     /* Usart Setup */
     gpio_type(GPIOD, USART3_TX, USART_MODE, USART_OTYPE, USART_AF);
     gpio_type(GPIOD, USART3_RX, USART_MODE, USART_OTYPE, USART_AF);
@@ -131,7 +139,9 @@ void delay(TIMER_TypeDef * ptr, uint32_t time_us) {
     timer_clr_flag(ptr);
 }
 
-void Timer4InteruptHandler() {
+extern void TIM4_IRQHandler() {
+    /* CLEAR THE INTERUPT FIRST */
+    timer_clr_flag(TIMER4);
     if (toggle == true) {
         gpio_clr_pin(GPIOA, LED_RED);
         toggle = false;
@@ -139,6 +149,4 @@ void Timer4InteruptHandler() {
         gpio_set_pin(GPIOA, LED_RED);
         toggle = true;
     }
-
-    timer_clr_flag(TIMER4);
 }
