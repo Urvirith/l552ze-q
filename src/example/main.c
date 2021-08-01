@@ -32,20 +32,14 @@ extern void _start() {
     gpio_type(GPIOB, LED_BLU_PIN, Gpio_Output, Gpio_Push_Pull, 0);
     gpio_type(GPIOC, LED_GRN_PIN, Gpio_Output, Gpio_Push_Pull, 0);
     /* Timer Setup */
-    /* TIMER 2 */
     timer_open(TIMER2, Timer_Cont, Timer_Upcount);
     timer_set_time(TIMER2, 1000, 16000, 5000);
-    timer_start(TIMER2);
-    /* TIMER 3 */
     timer_open(TIMER3, Timer_Ons, Timer_Upcount);
     timer_set_time(TIMER3, 5, 16, 0);
-    /* TIMER 4 */
-    gpio_type(GPIOB, TIM4_PWM1_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM4_PWM1_AF);
     timer_open(TIMER4, Timer_Cont, Timer_Upcount);
-    timer_set_time(TIMER4, 500, 16000, 16000);
-    timer_set_pwm_ccr1(TIMER4, 250);
-    timer_set_pwm_ch1(TIMER4);
+    timer_set_time(TIMER4, 5000, 16000, 5000);
     timer_set_interrupt(TIMER4);
+    timer_start(TIMER2);
     timer_start(TIMER4);
     nvic_enable_interrupt(NVIC, TIM4_IRQ);
     /* Usart Setup */
@@ -67,6 +61,7 @@ extern void _start() {
     gpio_pupd(GPIOE, STEP_Y_AXIS, Gpio_NoPuPd);
     gpio_pupd(GPIOF, STEP_X_AXIS, Gpio_NoPuPd);
     gpio_pupd(GPIOF, AXIS_ENABLE, Gpio_NoPuPd);
+
     gpio_clr_pin(GPIOF, AXIS_ENABLE_PIN);
 
     uint8_t buf[8] = {0x03, 0x01, 0x02, 0x03 ,0x04, 0x05, 0x06, 0x0D};

@@ -51,14 +51,16 @@ void timer_stop(TIMER_TypeDef *ptr) {
     clr_ptr_vol_bit_u32(&ptr->CR1, EN_BIT);
 }
 
+/* Set Prescaler, And Auto Reload Register */
+/* Prescaler = PSC - 1, due to register being PSC + 1, ARR - 1 due to loading and ticking over to 0 */
 void timer_set_time(TIMER_TypeDef *ptr, uint32_t time, uint32_t clock_speed, uint32_t prescale) {
     uint32_t value = 0;
     uint32_t psc = 0;
 
     if (prescale == 0) {
-        value = time * clock_speed;
+        value = (time * clock_speed) - 1;
     } else {
-        value = (time * clock_speed) / prescale;
+        value = ((time * clock_speed) / prescale) - 1;
         psc = prescale - 1;
     }
 
@@ -93,3 +95,32 @@ void timer_set_time(TIMER_TypeDef *ptr, uint32_t time, uint32_t clock_speed, uin
           (OCxM=‘110 or ‘111).
     This forces the PWM by software while the timer is running.
 */
+
+/* Setup For PWM on CH 1 */
+void timer_set_pwm_ccr1(TIMER_TypeDef *ptr, uint32_t cnt) {
+    set_ptr_vol_raw_u32(&ptr->CCR1, cnt);
+}
+
+/* Setup For PWM on CH 2 */
+void timer_set_pwm_ccr2(TIMER_TypeDef *ptr, uint32_t cnt) {
+    set_ptr_vol_raw_u32(&ptr->CCR2, cnt);
+}
+
+/* Setup For PWM on CH 3 */
+void timer_set_pwm_ccr3(TIMER_TypeDef *ptr, uint32_t cnt) {
+    set_ptr_vol_raw_u32(&ptr->CCR3, cnt);
+}
+
+/* Setup For PWM on CH 4 */
+void timer_set_pwm_ccr4(TIMER_TypeDef *ptr, uint32_t cnt) {
+    set_ptr_vol_raw_u32(&ptr->CCR4, cnt);
+}
+
+/* Default Set Up For PWM */
+void timer_set_pwm_ch1(TIMER_TypeDef *ptr) {
+    set_ptr_vol_u32(&ptr->CCMR1, CC1S_OFFSET, CCS_MASK, CCS_OUTPUT);
+    set_ptr_vol_u32(&ptr->CCMR1, OC1M_OFFSET, OCM_MASK, PWM_MODE1);
+    set_ptr_vol_bit_u32(&ptr->CCER, CC1E_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC1P_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC1NP_BIT);
+}
