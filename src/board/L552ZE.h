@@ -96,10 +96,13 @@
 #define STEP_Z_AXIS_PIN             BIT_14
 #define STEP_Y_AXIS_PIN             BIT_13
 #define STEP_X_AXIS_PIN             BIT_15
-#define GPIOB_PIN6                  (uint32_t)6                             /* PWM TIMER 4 on GPIO B Bus, Pin 6   */
-#define TIM4_PWM1_PIN               GPIOB_PIN6                              /* PWM TIMER 4 on GPIO B Bus, Pin 6   */
-#define TIM4_PWM1                   BIT_6                                   /* PWM TIMER 4 on GPIO B Bus, Pin 6   */
-#define TIM4_PWM1_AF                AF2                                     /* PWM TIMER 4 on GPIO B Bus, Pin 6   */
+
+
+/* TIMER3 PWM CH1 */
+#define GPIOE_PIN3                  (uint32_t)3                             /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
+#define TIM3_PWM1_PIN               GPIOE_PIN3                              /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
+#define TIM3_PWM1                   BIT_6                                   /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
+#define TIM3_PWM1_AF                AF2                                     /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
 
 /* Timer */
 #define RCC_TIMER2_APB1R1EN         BIT_0

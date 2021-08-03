@@ -22,7 +22,6 @@ extern void _system_init() {
     rcc_write_ahb2_enr(RCC, RCC_GPIOF_AHB2EN);
     rcc_write_apb1_enr1(RCC, RCC_TIMER2_APB1R1EN);
     rcc_write_apb1_enr1(RCC, RCC_TIMER3_APB1R1EN);
-    rcc_write_apb1_enr1(RCC, RCC_TIMER4_APB1R1EN);
     rcc_write_apb1_enr1(RCC, RCC_USART3_APB1R1EN);
 }
 
@@ -37,17 +36,15 @@ extern void _start() {
     timer_set_time(TIMER2, 1000, 16000, 5000);
     timer_start(TIMER2);
     /* TIMER 3 */
+    gpio_type(GPIOE, TIM3_PWM1_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM3_PWM1_AF);
     timer_open(TIMER3, Timer_Ons, Timer_Upcount);
-    timer_set_time(TIMER3, 5, 16, 0);
-    /* TIMER 4 */
-    gpio_type(GPIOB, TIM4_PWM1_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM4_PWM1_AF);
-    timer_open(TIMER4, Timer_Cont, Timer_Upcount);
-    timer_set_time(TIMER4, 200, 16000, 16000);
-    timer_set_pwm_ccr1(TIMER4, 100);
-    timer_set_pwm_ch1(TIMER4);
-    timer_set_interrupt(TIMER4);
-    timer_start(TIMER4);
-    nvic_enable_interrupt(NVIC, TIM4_IRQ);
+    timer_set_time(TIMER3, 500, 16000, 16000);
+    timer_set_pwm_ccr1(TIMER3, 250);
+    timer_set_pwm_ch1(TIMER3);
+    timer_set_interrupt(TIMER3);
+    timer_start(TIMER3);
+    nvic_enable_interrupt(NVIC, TIM3_IRQ);
+
     /* Usart Setup */
     gpio_type(GPIOD, USART3_TX, USART_MODE, USART_OTYPE, USART_AF);
     gpio_type(GPIOD, USART3_RX, USART_MODE, USART_OTYPE, USART_AF);
@@ -142,9 +139,9 @@ void delay(TIMER_TypeDef * ptr, uint32_t time_us) {
     timer_clr_flag(ptr);
 }
 
-extern void TIM4_IRQHandler() {
+extern void TIM3_IRQHandler() {
     /* CLEAR THE INTERUPT FIRST */
-    timer_clr_flag(TIMER4);
+    timer_clr_flag(TIMER3);
     if (toggle == true) {
         gpio_clr_pin(GPIOA, LED_RED);
         toggle = false;
@@ -152,4 +149,6 @@ extern void TIM4_IRQHandler() {
         gpio_set_pin(GPIOA, LED_RED);
         toggle = true;
     }
+
+    timer_start(TIMER3);
 }

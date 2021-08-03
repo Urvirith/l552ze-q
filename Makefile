@@ -22,12 +22,10 @@ START_DIR	:= ./src/startup
 OBJ_DIR		:= ./obj
 
 #ONLY ONE
-STARTUP		:= startup_CMSIS.s
-#STARTUP	:= startup_ARMCM33.s
+STARTUP		:= startup_ARMCM33.s
 
 #ONLY ONE
-LINKER		:= gcc_CMSIS.ld
-#LINKER		:= gcc_arm.ld
+LINKER		:= gcc_arm.ld
 
 #	EXAMPLE OF AUTOMATIC VARIABLES
 #	%.o: %.c %.h common.h
