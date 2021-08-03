@@ -50,10 +50,10 @@
 
 
 /* Private Functions */
-static uint32_t clock_setup(uint32_t baud, uint32_t sclk_khz, uint32_t over8);
+static uint32_t clock_setup(USART_BaudRate baud, uint32_t sclk_khz, USART_OverSample over8);
 
 
-void usart_open(USART_TypeDef *ptr, uint32_t word_len, uint32_t stop, uint32_t baud, uint32_t sclk_khz, uint32_t over8) { 
+void usart_open(USART_TypeDef *ptr, USART_WordLength word_len, USART_StopLength stop, USART_BaudRate baud, uint32_t sclk_khz, USART_OverSample over8) { 
     if (word_len == USART_8_Bits) {             // Set the word length, based off the split bits in CR1
         clr_ptr_vol_bit_u32(&ptr->CR1, BIT_12);
         clr_ptr_vol_bit_u32(&ptr->CR1, BIT_24);
@@ -175,7 +175,7 @@ void usart_write(USART_TypeDef *ptr, uint8_t* buf, int len){
 // • When OVER8 = 1 – BRR[2:0] = USARTDIV[3:0] shifted 1 bit to the right.
 //   – BRR[3] must be kept cleared.
 //   – BRR[15:4] = USARTDIV[15:4]
-static uint32_t clock_setup(uint32_t baud, uint32_t sclk_khz, uint32_t over8) {
+static uint32_t clock_setup(USART_BaudRate baud, uint32_t sclk_khz, USART_OverSample over8) {
     if (over8 == USART_Oversample_8) {
         uint32_t baud_div = ((sclk_khz * SCLK_HZ) * 2) / baud;
 

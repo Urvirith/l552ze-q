@@ -102,12 +102,19 @@ typedef struct {
 
 /* Enumerations */
 // 0 = Continous, 1 = ONS (clears en bit)
-enum timer_type {Timer_Cont, Timer_Ons};
+typedef enum timer_type {
+    Timer_Cont, 
+    Timer_Ons
+} TIMER_Type;
+
 // 0 = Upcounter, 1 = Downcounter
-enum timer_direction {Timer_Upcount, Timer_Down};
+typedef enum timer_direction {
+    Timer_Upcount,
+    Timer_Down
+} TIMER_Direction;
 
 /* Public Functions */
-void timer_open(TIMER_TypeDef *ptr, uint32_t ons, uint32_t dir);
+void timer_open(TIMER_TypeDef *ptr, TIMER_Type ons, TIMER_Direction dir);
 bool timer_get_flag(TIMER_TypeDef *ptr);
 void timer_clr_flag(TIMER_TypeDef *ptr);
 void timer_set_interrupt(TIMER_TypeDef *ptr);

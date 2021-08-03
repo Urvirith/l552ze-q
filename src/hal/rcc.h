@@ -66,10 +66,10 @@ typedef struct {
 
 /* Register Offsets */
 /* CR */    
-#define MSIRANGE        4 
+#define MSIRANGE_OFFSET 4 
 
 /* Public Functions */
-void rcc_write_msi_range(RCC_TypeDef *ptr, uint32_t freq_khz);
+void rcc_write_msi_range(RCC_TypeDef *ptr, MSI_Range freq_khz);
 void rcc_write_ahb1_enr(RCC_TypeDef *ptr, uint32_t bit_num);
 void rcc_write_ahb2_enr(RCC_TypeDef *ptr, uint32_t bit_num);
 void rcc_write_ahb3_enr(RCC_TypeDef *ptr, uint32_t bit_num);

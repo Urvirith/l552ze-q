@@ -21,7 +21,7 @@ void gpio_clr_lock(GPIO_TypeDef *ptr, uint32_t value){
     clr_ptr_vol_bit_u32(&ptr->LCKR, value);
 }
 
-void gpio_type(GPIO_TypeDef *ptr, uint32_t bit, uint32_t mode, uint32_t otype, uint32_t alt_func) {
+void gpio_type(GPIO_TypeDef *ptr, uint32_t bit, GPIO_Mode mode, GPIO_OType otype, GPIO_AltFunction alt_func) {
     set_ptr_vol_u32(&ptr->MODER, bit * MODER_OFFSET, MODER_MASK, mode);
     if (otype == Gpio_Open_Drain) {
         set_ptr_vol_bit_u32(&ptr->OTYPER, (1 << bit));
@@ -38,10 +38,10 @@ void gpio_type(GPIO_TypeDef *ptr, uint32_t bit, uint32_t mode, uint32_t otype, u
     }
 }
 
-void gpio_speed(GPIO_TypeDef *ptr, uint32_t bit, uint32_t mode) {
-    set_ptr_vol_u32(&ptr->OSPEEDR, bit * OSPEED_OFFSET, OSPEED_MASK, mode);
+void gpio_speed(GPIO_TypeDef *ptr, uint32_t bit, uint32_t speed) {
+    set_ptr_vol_u32(&ptr->OSPEEDR, bit * OSPEED_OFFSET, OSPEED_MASK, speed);
 }
 
-void gpio_pupd(GPIO_TypeDef *ptr, uint32_t bit, uint32_t mode) {
-    set_ptr_vol_u32(&ptr->PUPDR, bit * PUPD_OFFSET, PUPD_MASK, mode);
+void gpio_pupd(GPIO_TypeDef *ptr, uint32_t bit, uint32_t pupd) {
+    set_ptr_vol_u32(&ptr->PUPDR, bit * PUPD_OFFSET, PUPD_MASK, pupd);
 }

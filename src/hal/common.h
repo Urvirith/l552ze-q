@@ -73,7 +73,7 @@
 #define MASK_32_BIT (uint32_t)0xFFFFFFFF
 
 // Enumeration of avaliable ranges of clocks
-enum msi_range {
+typedef enum msi_range {
     Clk100kHz, 
     Clk200kHz, 
     Clk400kHz, 
@@ -86,7 +86,7 @@ enum msi_range {
     Clk24MHz, 
     Clk32MHz, 
     Clk48MHz
-};
+} MSI_Range;
 
 /* Public Functions */
 /* 32-Bit Functions */

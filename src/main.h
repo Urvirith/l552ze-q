@@ -14,8 +14,6 @@
 #define USART3              ((USART_TypeDef *) USART3_BASE)
 #define NVIC                ((NVIC_TypeDef *) NVIC_BASE)
 
-enum motor_dir {MotorReverse, MotorForward};
-
 void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pulse_ptr, uint32_t pin_pulse, uint32_t steps);
 void delay(TIMER_TypeDef * ptr, uint32_t time_us);
 

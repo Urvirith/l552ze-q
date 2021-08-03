@@ -1,7 +1,7 @@
 #include "common.h"
 #include "timer.h"
 
-void timer_open(TIMER_TypeDef *ptr, uint32_t ons, uint32_t dir) {
+void timer_open(TIMER_TypeDef *ptr, TIMER_Type ons, TIMER_Direction dir) {
     clr_ptr_vol_bit_u32(&ptr->CR1, UDIS_BIT);
     clr_ptr_vol_bit_u32(&ptr->CR1, URS_BIT);
 

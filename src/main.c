@@ -42,8 +42,8 @@ extern void _start() {
     /* TIMER 4 */
     gpio_type(GPIOB, TIM4_PWM1_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM4_PWM1_AF);
     timer_open(TIMER4, Timer_Cont, Timer_Upcount);
-    timer_set_time(TIMER4, 500, 16000, 16000);
-    timer_set_pwm_ccr1(TIMER4, 250);
+    timer_set_time(TIMER4, 200, 16000, 16000);
+    timer_set_pwm_ccr1(TIMER4, 100);
     timer_set_pwm_ch1(TIMER4);
     timer_set_interrupt(TIMER4);
     timer_start(TIMER4);
@@ -109,7 +109,7 @@ extern void __aeabi_unwind_cpp_pr0() {
 }
 
 void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pulse_ptr, uint32_t pin_pulse, uint32_t steps) { 
-    if (dir == MotorForward) {
+    if (dir == 1) {
         gpio_set_pin(dir_ptr, pin_dir);
     } else {
         gpio_clr_pin(dir_ptr, pin_dir);
