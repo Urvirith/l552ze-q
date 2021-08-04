@@ -128,5 +128,8 @@ void timer_set_pwm_ccr2(TIMER_TypeDef *ptr, uint32_t cnt);
 void timer_set_pwm_ccr3(TIMER_TypeDef *ptr, uint32_t cnt);
 void timer_set_pwm_ccr4(TIMER_TypeDef *ptr, uint32_t cnt);
 void timer_set_pwm_ch1(TIMER_TypeDef *ptr);
+void timer_set_pwm_ch2(TIMER_TypeDef *ptr);
+void timer_set_pwm_ch3(TIMER_TypeDef *ptr);
+void timer_set_pwm_ch4(TIMER_TypeDef *ptr);
 
 #endif /* TIMER_H_ */

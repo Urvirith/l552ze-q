@@ -75,34 +75,39 @@
 #define GPIOA_PIN9                  (uint32_t)9                             /* USER RED LED on GPIO A Bus, Pin 9    */
 #define LED_RED_PIN                 GPIOA_PIN9                              /* USER RED LED on GPIO A Bus, Pin 9    */
 #define LED_RED                     BIT_9                                   /* USER RED LED on GPIO A Bus, Pin 9    */
-#define GPIOF_PIN12                 (uint32_t)12                            /* USER PIN on GPIO F Bus, Pin 12       */
-#define GPIOF_PIN13                 (uint32_t)13                            /* USER PIN on GPIO F Bus, Pin 13       */
-#define GPIOE_PIN9                  (uint32_t)9                             /* USER PIN on GPIO E Bus, Pin 9        */
-#define GPIOE_PIN11                 (uint32_t)11                            /* USER PIN on GPIO E Bus, Pin 11       */
-#define GPIOF_PIN14                 (uint32_t)14                            /* USER PIN on GPIO F Bus, Pin 14       */
-#define GPIOE_PIN13                 (uint32_t)13                            /* USER PIN on GPIO E Bus, Pin 13       */
-#define GPIOF_PIN15                 (uint32_t)15                            /* USER PIN on GPIO F Bus, Pin 15       */
-#define AXIS_ENABLE                 GPIOF_PIN12
-#define DIR_Z_AXIS                  GPIOF_PIN13
-#define DIR_Y_AXIS                  GPIOE_PIN9
-#define DIR_X_AXIS                  GPIOE_PIN11
-#define STEP_Z_AXIS                 GPIOF_PIN14
-#define STEP_Y_AXIS                 GPIOE_PIN13
-#define STEP_X_AXIS                 GPIOF_PIN15
-#define AXIS_ENABLE_PIN             BIT_12
-#define DIR_Z_AXIS_PIN              BIT_13
-#define DIR_Y_AXIS_PIN              BIT_9
-#define DIR_X_AXIS_PIN              BIT_11
-#define STEP_Z_AXIS_PIN             BIT_14
-#define STEP_Y_AXIS_PIN             BIT_13
-#define STEP_X_AXIS_PIN             BIT_15
+#define GPIOF_PIN7                  (uint32_t)7                             /* USER PIN on GPIO F Bus, Pin 7        */
+#define GPIOF_PIN8                  (uint32_t)8                             /* USER PIN on GPIO F Bus, Pin 8        */
+#define GPIOF_PIN9                  (uint32_t)9                             /* USER PIN on GPIO F Bus, Pin 9        */
+#define GPIOE_PIN2                  (uint32_t)2                             /* USER PIN on GPIO E Bus, Pin 2       */
+#define AXIS_ENABLE                 GPIOE_PIN2
+#define DIR_Z_AXIS                  GPIOF_PIN8
+#define DIR_Y_AXIS                  GPIOF_PIN7
+#define DIR_X_AXIS                  GPIOF_PIN9
+#define AXIS_ENABLE_PIN             BIT_2
+#define DIR_Z_AXIS_PIN              BIT_8
+#define DIR_Y_AXIS_PIN              BIT_7
+#define DIR_X_AXIS_PIN              BIT_9
 
 
 /* TIMER3 PWM CH1 */
 #define GPIOE_PIN3                  (uint32_t)3                             /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
 #define TIM3_PWM1_PIN               GPIOE_PIN3                              /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
-#define TIM3_PWM1                   BIT_6                                   /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
 #define TIM3_PWM1_AF                AF2                                     /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
+
+/* TIMER3 PWM CH2 */
+#define GPIOE_PIN4                  (uint32_t)4                             /* PWM TIMER 3 on GPIO E Bus, Pin 4   */
+#define TIM3_PWM2_PIN               GPIOE_PIN4                              /* PWM TIMER 3 on GPIO E Bus, Pin 4   */
+#define TIM3_PWM2_AF                AF2                                     /* PWM TIMER 3 on GPIO E Bus, Pin 4   */
+
+/* TIMER3 PWM CH3 */
+#define GPIOE_PIN5                  (uint32_t)5                             /* PWM TIMER 3 on GPIO E Bus, Pin 5   */
+#define TIM3_PWM3_PIN               GPIOE_PIN5                              /* PWM TIMER 3 on GPIO E Bus, Pin 5   */
+#define TIM3_PWM3_AF                AF2                                     /* PWM TIMER 3 on GPIO E Bus, Pin 5   */
+
+/* TIMER3 PWM CH4 */
+#define GPIOE_PIN6                  (uint32_t)6                             /* PWM TIMER 3 on GPIO E Bus, Pin 6   */
+#define TIM3_PWM4_PIN               GPIOE_PIN6                              /* PWM TIMER 3 on GPIO E Bus, Pin 6   */
+#define TIM3_PWM4_AF                AF2                                     /* PWM TIMER 3 on GPIO E Bus, Pin 6   */
 
 /* Timer */
 #define RCC_TIMER2_APB1R1EN         BIT_0

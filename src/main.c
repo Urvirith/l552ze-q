@@ -7,9 +7,18 @@
 #include "hal/timer.h"
 #include "hal/usart.h"
 #include "hal/nvic.h"
+#include "axis.h"
 #include "main.h"
 
-volatile bool toggle = 0;
+struct motor_control motorcontoller = {
+    .MOTOR1 = {.DIRECTION = Reverse, .STATE = BootUp, .COUNT = 0},
+    .MOTOR2 = {.DIRECTION = Reverse, .STATE = BootUp, .COUNT = 0},
+    .MOTOR3 = {.DIRECTION = Reverse, .STATE = BootUp, .COUNT = 0},
+    .MOTOR4 = {.DIRECTION = Reverse, .STATE = BootUp, .COUNT = 0},
+    .STATE = BootUp,
+    .COUNT = 0,
+    .TOGGLE = 0
+};
 
 /* Extern Keyword Allows To Be Call */
 extern void _system_init() {
@@ -37,12 +46,18 @@ extern void _start() {
     timer_start(TIMER2);
     /* TIMER 3 */
     gpio_type(GPIOE, TIM3_PWM1_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM3_PWM1_AF);
+    gpio_type(GPIOE, TIM3_PWM2_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM3_PWM2_AF);
+    gpio_type(GPIOE, TIM3_PWM3_PIN, Gpio_Alternate, Gpio_Push_Pull, TIM3_PWM3_AF);
     timer_open(TIMER3, Timer_Ons, Timer_Upcount);
-    timer_set_time(TIMER3, 500, 16000, 16000);
-    timer_set_pwm_ccr1(TIMER3, 250);
+    timer_set_time(TIMER3, 500, 16, 16);
+    timer_set_pwm_ccr1(TIMER3, 0);
     timer_set_pwm_ch1(TIMER3);
+    timer_set_pwm_ccr2(TIMER3, 0);
+    timer_set_pwm_ch2(TIMER3);
+    timer_set_pwm_ccr3(TIMER3, 0);
+    timer_set_pwm_ch3(TIMER3);
     timer_set_interrupt(TIMER3);
-    timer_start(TIMER3);
+    delay(TIMER3, 500);
     nvic_enable_interrupt(NVIC, TIM3_IRQ);
 
     /* Usart Setup */
@@ -51,25 +66,31 @@ extern void _start() {
     usart_open(USART3, USART_8_Bits, USART_1_StopBit, USART_921600_BAUD, 16000, USART_Oversample_16);
     /* PIN SETUP */
     gpio_type(GPIOF, DIR_Z_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
-    gpio_type(GPIOE, DIR_Y_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
-    gpio_type(GPIOE, DIR_X_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
-    gpio_type(GPIOF, STEP_Z_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
-    gpio_type(GPIOE, STEP_Y_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
-    gpio_type(GPIOF, STEP_X_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
-    gpio_type(GPIOF, AXIS_ENABLE, Gpio_Output, Gpio_Push_Pull, 0);
+    gpio_type(GPIOF, DIR_Y_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
+    gpio_type(GPIOF, DIR_X_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
+    gpio_type(GPIOE, AXIS_ENABLE, Gpio_Output, Gpio_Push_Pull, 0);
     gpio_pupd(GPIOF, DIR_Z_AXIS, Gpio_NoPuPd);
-    gpio_pupd(GPIOE, DIR_Y_AXIS, Gpio_NoPuPd);
-    gpio_pupd(GPIOE, DIR_X_AXIS, Gpio_NoPuPd);
-    gpio_pupd(GPIOF, STEP_Z_AXIS, Gpio_NoPuPd);
-    gpio_pupd(GPIOE, STEP_Y_AXIS, Gpio_NoPuPd);
-    gpio_pupd(GPIOF, STEP_X_AXIS, Gpio_NoPuPd);
-    gpio_pupd(GPIOF, AXIS_ENABLE, Gpio_NoPuPd);
-    gpio_clr_pin(GPIOF, AXIS_ENABLE_PIN);
+    gpio_pupd(GPIOF, DIR_Y_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOF, DIR_X_AXIS, Gpio_NoPuPd);
+    gpio_pupd(GPIOE, AXIS_ENABLE, Gpio_NoPuPd);
+    
+    gpio_clr_pin(GPIOE, AXIS_ENABLE_PIN);
+    
 
     uint8_t buf[8] = {0x03, 0x01, 0x02, 0x03 ,0x04, 0x05, 0x06, 0x0D};
     bool flip = 0;
 
+    motorcontoller.MOTOR1.COUNT = 200;
+    motorcontoller.MOTOR1.STATE = PreOperational;
+    motorcontoller.MOTOR2.COUNT = 150;
+    motorcontoller.MOTOR2.STATE = PreOperational;
+    motorcontoller.MOTOR3.COUNT = 100;
+    motorcontoller.MOTOR3.STATE = PreOperational;
+    motorcontoller.STATE = Stopped;
+
     uint8_t i = 0;
+    uint8_t j = 0;
+
     while (1) {
         if (timer_get_flag(TIMER2)) {
             if (i == 1) {
@@ -82,15 +103,57 @@ extern void _start() {
                 i = 0;
             }
 
-            /*
-            if (flip == 0) {
-                loop(0, GPIOE, DIR_X_AXIS_PIN, GPIOF, STEP_X_AXIS_PIN, 200);
-                flip = 1;
-            } else {
-                loop(1, GPIOE, DIR_X_AXIS_PIN, GPIOF, STEP_X_AXIS_PIN, 200);
-                flip = 0;
+            if (motorcontoller.STATE == Stopped) {
+                if (j == 0) {
+                    motorcontoller.COUNT = 0;
+                    gpio_set_pin(GPIOF, DIR_Z_AXIS_PIN);
+                    gpio_set_pin(GPIOF, DIR_Y_AXIS_PIN);
+                    gpio_set_pin(GPIOF, DIR_X_AXIS_PIN);
+                    timer_set_time(TIMER3, 2000, 16, 16);
+                    timer_set_pwm_ccr1(TIMER3, 1000);
+                    timer_set_pwm_ccr2(TIMER3, 1000);
+                    timer_set_pwm_ccr3(TIMER3, 1000);
+                    motorcontoller.STATE = Operational;
+                    timer_start(TIMER3);
+                    j = 1;
+                } else if (j == 1) {
+                    gpio_set_pin(GPIOF, DIR_Z_AXIS_PIN);
+                    gpio_set_pin(GPIOF, DIR_Y_AXIS_PIN);
+                    gpio_clr_pin(GPIOF, DIR_X_AXIS_PIN);
+                    motorcontoller.COUNT = 0;
+                    timer_set_time(TIMER3, 1800, 16, 16);
+                    timer_set_pwm_ccr1(TIMER3, 900);
+                    timer_set_pwm_ccr2(TIMER3, 900);
+                    timer_set_pwm_ccr3(TIMER3, 900);
+                    motorcontoller.STATE = Operational;
+                    timer_start(TIMER3);
+                    j = 2;
+                } else if (j == 2) {
+                    gpio_set_pin(GPIOF, DIR_Z_AXIS_PIN);
+                    gpio_clr_pin(GPIOF, DIR_Y_AXIS_PIN);
+                    gpio_set_pin(GPIOF, DIR_X_AXIS_PIN);
+                    motorcontoller.COUNT = 0;
+                    timer_set_time(TIMER3, 1600, 16, 16);
+                    timer_set_pwm_ccr1(TIMER3, 800);
+                    timer_set_pwm_ccr2(TIMER3, 800);
+                    timer_set_pwm_ccr3(TIMER3, 800);
+                    motorcontoller.STATE = Operational;
+                    timer_start(TIMER3);
+                    j = 3;
+                } else {
+                    gpio_clr_pin(GPIOF, DIR_Z_AXIS_PIN);
+                    gpio_set_pin(GPIOF, DIR_Y_AXIS_PIN);
+                    gpio_set_pin(GPIOF, DIR_X_AXIS_PIN);
+                    motorcontoller.COUNT = 0;
+                    timer_set_time(TIMER3, 1500, 16, 16);
+                    timer_set_pwm_ccr1(TIMER3, 750);
+                    timer_set_pwm_ccr2(TIMER3, 750);
+                    timer_set_pwm_ccr3(TIMER3, 750);
+                    motorcontoller.STATE = Operational;
+                    timer_start(TIMER3);
+                    j = 0;
+                }
             }
-            */
            
             buf[1] = i;
             usart_write(USART3, buf, 8);
@@ -105,28 +168,8 @@ extern void __aeabi_unwind_cpp_pr0() {
     //loop {}
 }
 
-void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pulse_ptr, uint32_t pin_pulse, uint32_t steps) { 
-    if (dir == 1) {
-        gpio_set_pin(dir_ptr, pin_dir);
-    } else {
-        gpio_clr_pin(dir_ptr, pin_dir);
-    }
-
-    delay(TIMER3, 50);
-    //for (volatile int j = 0; j < 200; j++) {};
-
-    for (volatile int i = 0; i < steps; i++) {
-        gpio_set_pin(pulse_ptr, pin_pulse);
-        //for (volatile int j = 0; j < 1000; j++) {};
-        delay(TIMER3, 1000);
-        gpio_clr_pin(pulse_ptr, pin_pulse); 
-        //for (volatile int j = 0; j < 1000; j++) {};
-        delay(TIMER3, 1000);
-    }
-}
-
 void delay(TIMER_TypeDef * ptr, uint32_t time_us) {
-    timer_set_time(ptr, time_us, 16, 0);
+    timer_set_time(ptr, time_us, 16, 16);
     timer_start(ptr);
     timer_clr_flag(ptr);
 
@@ -140,15 +183,47 @@ void delay(TIMER_TypeDef * ptr, uint32_t time_us) {
 }
 
 extern void TIM3_IRQHandler() {
-    /* CLEAR THE INTERUPT FIRST */
-    timer_clr_flag(TIMER3);
-    if (toggle == true) {
+    timer_clr_flag(TIMER3); /* CLEAR THE INTERUPT FIRST */
+    
+    motorcontoller.COUNT++;
+
+    if (motorcontoller.TOGGLE == true) { // TOGGLE LED FOR HEARTBEAT
         gpio_clr_pin(GPIOA, LED_RED);
-        toggle = false;
+        motorcontoller.TOGGLE = false;
     } else {
         gpio_set_pin(GPIOA, LED_RED);
-        toggle = true;
+        motorcontoller.TOGGLE = true;
     }
 
-    timer_start(TIMER3);
+    if (motorcontoller.COUNT < motorcontoller.MOTOR1.COUNT) {
+        motorcontoller.MOTOR1.STATE = Operational;
+    } else {
+        timer_set_pwm_ccr1(TIMER3, 0);
+        motorcontoller.MOTOR1.STATE = Stopped;
+    }
+
+    if (motorcontoller.COUNT < motorcontoller.MOTOR2.COUNT) {
+        motorcontoller.MOTOR2.STATE = Operational;
+    } else {
+        timer_set_pwm_ccr2(TIMER3, 0);
+        motorcontoller.MOTOR2.STATE = Stopped;
+    }
+
+    if (motorcontoller.COUNT < motorcontoller.MOTOR3.COUNT) {
+        motorcontoller.MOTOR3.STATE = Operational;
+    } else {
+        timer_set_pwm_ccr3(TIMER3, 0);
+        motorcontoller.MOTOR3.STATE = Stopped;
+    }
+
+    if ((motorcontoller.MOTOR1.STATE == Stopped) && (motorcontoller.MOTOR2.STATE == Stopped) && (motorcontoller.MOTOR3.STATE == Stopped)) {
+        motorcontoller.STATE = Stopped;
+    }
+
+    if (motorcontoller.STATE == Stopped) {
+        gpio_clr_pin(GPIOA, LED_RED);
+        motorcontoller.TOGGLE = false;
+    } else {
+        timer_start(TIMER3);
+    }
 }

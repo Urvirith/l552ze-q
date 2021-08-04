@@ -124,3 +124,30 @@ void timer_set_pwm_ch1(TIMER_TypeDef *ptr) {
     clr_ptr_vol_bit_u32(&ptr->CCER, CC1P_BIT);
     clr_ptr_vol_bit_u32(&ptr->CCER, CC1NP_BIT);
 }
+
+/* Default Set Up For PWM */
+void timer_set_pwm_ch2(TIMER_TypeDef *ptr) {
+    set_ptr_vol_u32(&ptr->CCMR1, CC2S_OFFSET, CCS_MASK, CCS_OUTPUT);
+    set_ptr_vol_u32(&ptr->CCMR1, OC2M_OFFSET, OCM_MASK, PWM_MODE1);
+    set_ptr_vol_bit_u32(&ptr->CCER, CC2E_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC2P_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC2NP_BIT);
+}
+
+/* Default Set Up For PWM */
+void timer_set_pwm_ch3(TIMER_TypeDef *ptr) {
+    set_ptr_vol_u32(&ptr->CCMR2, CC1S_OFFSET, CCS_MASK, CCS_OUTPUT);
+    set_ptr_vol_u32(&ptr->CCMR2, OC1M_OFFSET, OCM_MASK, PWM_MODE1);
+    set_ptr_vol_bit_u32(&ptr->CCER, CC3E_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC3P_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC3NP_BIT);
+}
+
+/* Default Set Up For PWM */
+void timer_set_pwm_ch4(TIMER_TypeDef *ptr) {
+    set_ptr_vol_u32(&ptr->CCMR2, CC2S_OFFSET, CCS_MASK, CCS_OUTPUT);
+    set_ptr_vol_u32(&ptr->CCMR2, OC2M_OFFSET, OCM_MASK, PWM_MODE1);
+    set_ptr_vol_bit_u32(&ptr->CCER, CC4E_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC4P_BIT);
+    clr_ptr_vol_bit_u32(&ptr->CCER, CC4NP_BIT);
+}
