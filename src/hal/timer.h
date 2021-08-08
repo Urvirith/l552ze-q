@@ -12,27 +12,27 @@
 
 /* Register Pointer Structure */
 typedef struct {
-    volatile uint32_t CR1;      // Control Register 1
-    volatile uint32_t CR2;      // Control Register 2
-    volatile uint32_t SMCR;     // Slave Mode Control Register
-    volatile uint32_t DIER;     // DMA/ Interrupt Enable Register
-    volatile uint32_t SR;       // Status Register
-    volatile uint32_t EGR;      // Event Generation Register
-    volatile uint32_t CCMR1;    // Capture/Compare Mode Register 1
-    volatile uint32_t CCMR2;    // Capture/Compare Mode Register 2
-    volatile uint32_t CCER;     // Capture/Compare Enable Register
-    volatile uint32_t CNT;      // Counter Register
-    volatile uint32_t PSC;      // Prescaler Register
-    volatile uint32_t ARR;      // Auto Reload Register
-    volatile uint32_t RCR;      // Repetition Counter Register
-    volatile uint32_t CCR1;     // Capture/Compare Register 1
-    volatile uint32_t CCR2;     // Capture/Compare Register 2
-    volatile uint32_t CCR3;     // Capture/Compare Register 3
-    volatile uint32_t CCR4;     // Capture/Compare Register 4
-    volatile uint32_t BDTR;     // Break and Dead-Time Register
-    volatile uint32_t DCR;      // DMA Control Register
-    volatile uint32_t DMAR;     // DMA Address Register
-    volatile uint32_t OR1;      // Option Register 1
+    volatile uint32_t CR1;              // Control Register 1
+    volatile uint32_t CR2;              // Control Register 2
+    volatile uint32_t SMCR;             // Slave Mode Control Register
+    volatile uint32_t DIER;             // DMA/ Interrupt Enable Register
+    volatile uint32_t SR;               // Status Register
+    volatile uint32_t EGR;              // Event Generation Register
+    volatile uint32_t CCMR1;            // Capture/Compare Mode Register 1
+    volatile uint32_t CCMR2;            // Capture/Compare Mode Register 2
+    volatile uint32_t CCER;             // Capture/Compare Enable Register
+    volatile uint32_t CNT;              // Counter Register
+    volatile uint32_t PSC;              // Prescaler Register
+    volatile uint32_t ARR;              // Auto Reload Register
+    volatile uint32_t RCR;              // Repetition Counter Register
+    volatile uint32_t CCR1;             // Capture/Compare Register 1
+    volatile uint32_t CCR2;             // Capture/Compare Register 2
+    volatile uint32_t CCR3;             // Capture/Compare Register 3
+    volatile uint32_t CCR4;             // Capture/Compare Register 4
+    volatile uint32_t BDTR;             // Break and Dead-Time Register
+    volatile uint32_t DCR;              // DMA Control Register
+    volatile uint32_t DMAR;             // DMA Address Register
+    volatile uint32_t OR1;              // Option Register 1
 } TIMER_TypeDef;
 
 /* Register Masks */

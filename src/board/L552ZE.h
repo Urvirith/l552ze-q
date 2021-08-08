@@ -50,7 +50,10 @@
 #define SPI3_BASE                   ((uint32_t)0x40003C00)
 
 /* CAN Interface */
-#define CAN_BASE                    ((uint32_t)0x4000A400)
+#define CAN_BASE                    ((uint32_t)0x4000AC00)
+
+/* USB-C Interface */
+#define UCPD_BASE                    ((uint32_t)0x4000DC00)
 
 /* System Control Base */
 #define SCS_BASE                    ((uint32_t)0xE000E000)

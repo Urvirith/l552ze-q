@@ -39,18 +39,65 @@
 
 /* Register Pointer Structure */
 typedef struct {
-    volatile uint32_t CR1;      // Control Register 1
-    volatile uint32_t CR2;      // Control Register 2
-    volatile uint32_t CR3;      // Control Register 3
-    volatile uint32_t BRR;      // Baud Rate Register Register
-    volatile uint32_t GTPR;     // Guard Time / Prescaler Register
-    volatile uint32_t RTOR;     // Receiver Timeout Register
-    volatile uint32_t RQR;      // Request Register
-    volatile uint32_t ISR;      // Interrupt And Status Register
-    volatile uint32_t ICR;      // Interrupt Flag Clear Register
-    volatile uint32_t RDR;      // Receive Data Register
-    volatile uint32_t TDR;      // Transmit Data Register
+    volatile uint32_t CR1;              // Control Register 1
+    volatile uint32_t CR2;              // Control Register 2
+    volatile uint32_t CR3;              // Control Register 3
+    volatile uint32_t BRR;              // Baud Rate Register Register
+    volatile uint32_t GTPR;             // Guard Time / Prescaler Register
+    volatile uint32_t RTOR;             // Receiver Timeout Register
+    volatile uint32_t RQR;              // Request Register
+    volatile uint32_t ISR;              // Interrupt And Status Register
+    volatile uint32_t ICR;              // Interrupt Flag Clear Register
+    volatile uint32_t RDR;              // Receive Data Register
+    volatile uint32_t TDR;              // Transmit Data Register
 } USART_TypeDef;
+
+#define SCLK_HZ             1000
+#define RTO_TIMEO_VALUE     10
+
+/* Register Masks */
+/* CR1 */
+#define OVER8_MASK          MASK_4_BIT
+/* CR2 */
+#define STOP_BIT_MASK       MASK_2_BIT
+/* BRR */
+#define BAUD_RATE_MASK      MASK_16_BIT
+/* RTOR */
+#define RTO_TIMEO_MASK      MASK_24_BIT
+
+/* Register Bits */
+/* CR1 */
+#define UE_BIT              BIT_0
+#define RE_BIT              BIT_2
+#define TE_BIT              BIT_3
+#define OVER_8_BIT          BIT_15
+/* CR2 */
+#define RTOEN_BIT           BIT_23
+/* ICR */
+#define FECF_BIT            BIT_1
+#define ORECR_BIT           BIT_3
+#define IDLECF_BIT          BIT_4
+#define RTOCF_BIT           BIT_11
+/* ISR */
+#define FE_BIT              BIT_1
+#define ORE_BIT             BIT_3
+#define IDLE_BIT            BIT_4
+#define RXNE_BIT            BIT_5
+#define TC_BIT              BIT_6
+#define TXE_BIT             BIT_7
+
+
+/* Register Offsets */
+/* CR2 */
+#define STOP_BIT_OFFSET     12
+/* BRR */
+#define BAUD_RATE_OFFSET    0
+/* RTOR */
+#define RTO_TIMEO_OFFSET    0
+     
+/* Register Shifts */
+/* CR1 */
+#define OVER8_SHIFT         1
 
 /* Enumerations */
 

@@ -9,19 +9,19 @@
 /* Nested vectored interrupt controller (NVIC) */
 
 typedef struct {
-	volatile uint32_t   ISER[16];		    /* Interrupt Set-Enable register */
-	volatile uint32_t   Reserved0[16];	    /* Offset */
-	volatile uint32_t   ICER[16]; 	        /* Interrupt Clear-Enable register */
-	volatile uint32_t   Reserved1[16];      /* Offset */
-	volatile uint32_t   ISPR[16];		    /* Interrupt Set-Pending Registers */
-	volatile uint32_t   Reserved2[16];	    /* Offset */
-	volatile uint32_t   ICPR[16];		    /* Interrupt Clear-Pending Registers */
-	volatile uint32_t   Reserved3[16];	    /* Offset */
-	volatile uint32_t   IABR[16];		    /* Interrupt Active Bit Registers */
-	volatile uint32_t   Reserved4[16];	    /* Offset */
-    volatile uint32_t   ITNS[16];		    /* Interrupt Target Non-Secure Registers */
-	volatile uint32_t   Reserved5[16];	    /* Offset */
-	volatile uint8_t    IPR[480];		    /* Interrupt Priority Registers */
+	volatile uint32_t   ISER[16];		// Interrupt Set-Enable register
+	volatile uint32_t   Reserved0[16];	// Offset
+	volatile uint32_t   ICER[16]; 	    // Interrupt Clear-Enable register
+	volatile uint32_t   Reserved1[16];  // Offset
+	volatile uint32_t   ISPR[16];		// Interrupt Set-Pending Registers
+	volatile uint32_t   Reserved2[16];	// Offset
+	volatile uint32_t   ICPR[16];		// Interrupt Clear-Pending Registers
+	volatile uint32_t   Reserved3[16];	// Offset
+	volatile uint32_t   IABR[16];		// Interrupt Active Bit Registers
+	volatile uint32_t   Reserved4[16];	// Offset
+    volatile uint32_t   ITNS[16];		// Interrupt Target Non-Secure Registers
+	volatile uint32_t   Reserved5[16];	// Offset
+	volatile uint8_t    IPR[480];		// Interrupt Priority Registers
 } NVIC_TypeDef;
 
 #define NVIC_32BIT      (uint32_t)32
