@@ -7,7 +7,7 @@
 #include "hal/timer.h"
 #include "hal/usart.h"
 #include "hal/nvic.h"
-#include "axis.h"
+#include "routine/axis.h"
 #include "main.h"
 
 struct motor_control motorcontoller = {

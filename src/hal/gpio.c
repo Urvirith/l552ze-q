@@ -23,13 +23,16 @@ void gpio_clr_lock(GPIO_TypeDef *ptr, uint32_t value){
 
 void gpio_type(GPIO_TypeDef *ptr, uint32_t bit, GPIO_Mode mode, GPIO_OType otype, GPIO_AltFunction alt_func) {
     set_ptr_vol_u32(&ptr->MODER, bit * MODER_OFFSET, MODER_MASK, mode);
-    if (otype == Gpio_Open_Drain) {
-        set_ptr_vol_bit_u32(&ptr->OTYPER, (1 << bit));
-    } else {
-        clr_ptr_vol_bit_u32(&ptr->OTYPER, (1 << bit));
+    switch (otype) {
+        case Gpio_Open_Drain:
+            set_ptr_vol_bit_u32(&ptr->OTYPER, (1 << bit));
+            break;
+        case Gpio_Push_Pull:
+            clr_ptr_vol_bit_u32(&ptr->OTYPER, (1 << bit));
+            break;
     }
 
-    if (mode == 2) {
+    if (mode == Gpio_Alternate) {
         if (bit <= 7) {
             set_ptr_vol_u32(&ptr->AFRL, bit * AF_OFFSET, AF_MASK, alt_func);
         } else {

@@ -68,9 +68,10 @@ int usart_read(USART_TypeDef *ptr, uint8_t* buf, int len){
     int i = 0; // Index based on len
     int t = 0; // Index for loop trap, if line goes idle, prevent being trapped by dead line. Convert to fail timer for more accurate usage.
 
-    while(i < len){
+    while(i < len) {
         if (usart_get_read(ptr)) {
             buf[i] = get_ptr_vol_raw_u8((volatile uint8_t *)&ptr->RDR);
+            t = 0;
             i++;
         }
 

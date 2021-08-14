@@ -3,7 +3,9 @@
 
 // USART DRIVER
 // ARM USART MODULE
-// USART Description - is on pg 1159
+// USART Description - is on pg 1559
+
+/* Universal Synchronous/Asynchronous Receiver Transmitter */
 
     // Any USART bidirectional communication requires a minimum of two pins: Receive data In (RX) and Transmit data Out (TX):
     // • RX: Receive data Input. This is the serial data input.
@@ -33,9 +35,6 @@
     // • RTS: Request to send indicates that the USART is ready to receive data (when low).
     // The following pin is required in RS485 Hardware control mode:
     // • DE: Driver Enable activates the transmission mode of the external transceiver.
-
-/* Register Base */
-/* Defined In The Board Specific Folder */
 
 /* Register Pointer Structure */
 typedef struct {
