@@ -43,6 +43,7 @@
 #define I2C1_BASE                   ((uint32_t)0x40005400)
 #define I2C2_BASE                   ((uint32_t)0x40005800)
 #define I2C3_BASE                   ((uint32_t)0x40005C00)
+#define I2C3_BASE                   ((uint32_t)0x40008400)
 
 /* Serial Peripheral Interface */
 #define SPI1_BASE                   ((uint32_t)0x40013000)
@@ -129,6 +130,18 @@
 #define USART_OTYPE                 Gpio_Push_Pull
 #define USART_AF                    AF7
 
+/* SPI 1*/
+/* RCC */
+//#define RCC_SPI1_APB2REN:         BIT12
+
+/* SPI 2*/
+/* RCC */
+//#define RCC_SPI2_APB1R1EN:        BIT14
+
+/* SPI 3*/
+/* RCC */
+//#define RCC_SPI3_APB1R1EN:        BIT15
+
 
 /* I2C 1*/
 //#define I2C1_RCC_APB1R1_ENABLE:     u32 = common::BIT_21;
@@ -143,18 +156,6 @@
 //#define CAN_AF:                     gpio::AltFunc = gpio::AltFunc::Af9;
 //#define CAN_OSPEED:                 gpio::OSpeed = gpio::OSpeed::High;
 //#define CAN_PUPD:                   gpio::Pupd = gpio::Pupd::Pu;
-
-/* SPI 1*/
-/* RCC */
-//#define SPI1_RCC_APB2R_ENABLE:      u32 = common::BIT_12;
-
-/* SPI 2*/
-/* RCC */
-// #define SPI2_RCC_APB1R1_ENABLE:  u32 = common::BIT_14; // NOT AVAILABLE 432KC
-
-/* SPI 3*/
-/* RCC */
-//#define SPI3_RCC_APB1R1_ENABLE:     u32 = common::BIT_15;
 
 enum nvic_irq {
     WWDG_IRQ,                   /*  0       Window Watchdog */

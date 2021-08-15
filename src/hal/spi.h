@@ -26,6 +26,7 @@ typedef struct {
 #define DS_MASK             MASK_4_BIT
 /* SR */
 #define LVL_MASK            MASK_2_BIT
+#define ERROR_MASK          MASK_3_BIT
 
 /* Register Bits */
 
@@ -56,6 +57,7 @@ typedef struct {
 /* CR2 */
 #define DS_OFFSET           8
 /* SR */
+#define ERROR_OFFSET        4
 #define FRLVL_OFFSET        9
 #define FTLVL_OFFSET        11
 
@@ -120,5 +122,16 @@ typedef enum spi_bit_first {
     SPI_Msb,
     SPI_Lsb
 } SPI_BitFirst;
+
+/* Public Functions */
+
+void spi_open(SPI_TypeDef *ptr, SPI_BaudRate br, SPI_ClockSetup cs, SPI_BitFirst bit, SPI_DataSize ds);
+void spi_enable(SPI_TypeDef *ptr);
+void spi_disable(SPI_TypeDef *ptr);
+bool spi_get_read(SPI_TypeDef *ptr);
+uint32_t spi_read(SPI_TypeDef *ptr, uint8_t* buf, int len);
+void spi_write(SPI_TypeDef *ptr, uint8_t* buf, int len);
+bool spi_error(SPI_TypeDef *ptr);
+uint32_t spi_error_byte(SPI_TypeDef *ptr);
 
 #endif /* SPI_H_ */

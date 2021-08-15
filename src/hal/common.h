@@ -88,6 +88,9 @@ typedef enum msi_range {
     Clk48MHz
 } MSI_Range;
 
+/* DELAY TIME FOR 50us, 1MHz = 1 Cycle Per Microsecond, Therefore 16 Mhz * 50 cycles = 800 Cycles = 50us */
+#define TIMEOUT (uint32_t)(16 * 50)
+
 /* Public Functions */
 /* 32-Bit Functions */
 bool get_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t offset);                              /* Get a pointer bit in a u32 ptr Example value (10000 >> 5) -> 1 */

@@ -79,7 +79,7 @@ int usart_read(USART_TypeDef *ptr, uint8_t* buf, int len){
             return -1;
         }
 
-        if (t > 100000) {
+        if (t > TIMEOUT) {
             return -2;
         }
 

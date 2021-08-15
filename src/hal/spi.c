@@ -30,45 +30,45 @@
     4.      Write to SPI_CRCPR register: Configure the CRC polynomial if needed.
 */
 void spi_open(SPI_TypeDef *ptr, SPI_BaudRate br, SPI_ClockSetup cs, SPI_BitFirst bit, SPI_DataSize ds) {
-    clr_ptr_vol_bit_u32(ptr->CR1, SPE_BIT);
-    set_ptr_vol_u32(ptr->CR1, BR_OFFSET, BR_MASK, br);
+    clr_ptr_vol_bit_u32(&ptr->CR1, SPE_BIT);
+    set_ptr_vol_u32(&ptr->CR1, BR_OFFSET, BR_MASK, br);
 
     switch (cs) {
         case SPI_RisingEdgeClockLow:
-            clr_ptr_vol_bit_u32(ptr->CR1, CPHA_BIT);
-            clr_ptr_vol_bit_u32(ptr->CR1, CPOL_BIT);
+            clr_ptr_vol_bit_u32(&ptr->CR1, CPHA_BIT);
+            clr_ptr_vol_bit_u32(&ptr->CR1, CPOL_BIT);
             break;
         case SPI_FallingEdgeClockLow:
-            set_ptr_vol_bit_u32(ptr->CR1, CPHA_BIT);
-            clr_ptr_vol_bit_u32(ptr->CR1, CPOL_BIT);
+            set_ptr_vol_bit_u32(&ptr->CR1, CPHA_BIT);
+            clr_ptr_vol_bit_u32(&ptr->CR1, CPOL_BIT);
             break;
         case SPI_RisingEdgeClockHigh:
-            clr_ptr_vol_bit_u32(ptr->CR1, CPHA_BIT);
-            set_ptr_vol_bit_u32(ptr->CR1, CPOL_BIT);
+            clr_ptr_vol_bit_u32(&ptr->CR1, CPHA_BIT);
+            set_ptr_vol_bit_u32(&ptr->CR1, CPOL_BIT);
             break;
         case SPI_FallingEdgeClockHigh:
-            set_ptr_vol_bit_u32(ptr->CR1, CPHA_BIT);
-            set_ptr_vol_bit_u32(ptr->CR1, CPOL_BIT);
+            set_ptr_vol_bit_u32(&ptr->CR1, CPHA_BIT);
+            set_ptr_vol_bit_u32(&ptr->CR1, CPOL_BIT);
             break;
     }
 
     switch (bit) {
         case SPI_Msb:
-            clr_ptr_vol_bit_u32(ptr->CR1, LSB_FIRST_BIT);
+            clr_ptr_vol_bit_u32(&ptr->CR1, LSB_FIRST_BIT);
             break;
         case SPI_Lsb:
-            set_ptr_vol_bit_u32(ptr->CR1, LSB_FIRST_BIT);
+            set_ptr_vol_bit_u32(&ptr->CR1, LSB_FIRST_BIT);
             break;
     }
     
-    set_ptr_vol_bit_u32(ptr->CR1, CRCL_BIT);                /* Set CRC To 8-Bit */
-    set_ptr_vol_bit_u32(ptr->CR1, CRCEN_BIT);               /* Set CRC Enabled  */
-    set_ptr_vol_bit_u32(ptr->CR1, MSTR_BIT);                /* Set Master Mode  */
-    set_ptr_vol_u32(ptr->CR2, DS_OFFSET, DS_MASK, ds);      /* Set Datasize     */
+    set_ptr_vol_bit_u32(&ptr->CR1, CRCL_BIT);                /* Set CRC To 8-Bit */
+    set_ptr_vol_bit_u32(&ptr->CR1, CRCEN_BIT);               /* Set CRC Enabled  */
+    set_ptr_vol_bit_u32(&ptr->CR1, MSTR_BIT);                /* Set Master Mode  */
+    set_ptr_vol_u32(&ptr->CR2, DS_OFFSET, DS_MASK, ds);      /* Set Datasize     */
 }
 
 void spi_enable(SPI_TypeDef *ptr) {
-    set_ptr_vol_bit_u32(ptr->CR1, SPE_BIT);
+    set_ptr_vol_bit_u32(&ptr->CR1, SPE_BIT);
 }
 
 /*
@@ -85,21 +85,68 @@ void spi_enable(SPI_TypeDef *ptr) {
     3. Read data until FRLVL[1:0] = 00 (read all the received data).
 */
 void spi_disable(SPI_TypeDef *ptr) {
-    clr_ptr_vol_bit_u32(ptr->CR1, SPE_BIT);
+    while(get_ptr_vol_u32(&ptr->SR, FTLVL_OFFSET, LVL_MASK) != 0) { 
+        // Wait For Busy 
+    }
+
+    while(get_ptr_vol_bit_u32(&ptr->SR, BSY_BIT)) { 
+        // Wait For Busy 
+    }
+
+    clr_ptr_vol_bit_u32(&ptr->CR1, SPE_BIT);
 }
 
-bool spi_get_read(SPI_TypeDef *ptr){
+/* Read Flag Function */
+bool spi_get_read(SPI_TypeDef *ptr) {
     return get_ptr_vol_bit_u32(&ptr->SR, RXNE_BIT);
 }
 
-void spi_read(SPI_TypeDef *ptr, uint8_t* buf, int len) {
-    int i = 0; // Index based on len
+/* Read Function */
+uint32_t spi_read(SPI_TypeDef *ptr, uint8_t* buf, int len) {
+    uint32_t i = 0; // Index based on len
+    uint32_t t = 0; // Time Out Rotation
     
     while(i < len) {
         if (spi_get_read(ptr)) {
             buf[i] = get_ptr_vol_raw_u8((volatile uint8_t *)&ptr->DR);
+            t = 0;
+            i++;
+        }
+
+        if (t < TIMEOUT) { // Check to see if delayed more than 50us
+            t++;
+        } else {
+            return i;
+        }
+    }
+
+    return i;
+}
+
+/* Write Function */
+void spi_write(SPI_TypeDef *ptr, uint8_t* buf, int len) {
+    uint32_t i = 0;
+    
+    while(i < len) {
+        if (get_ptr_vol_u32(&ptr->SR, FTLVL_OFFSET, LVL_MASK) < 3) {
+            set_ptr_vol_raw_u8((volatile uint8_t *)&ptr->DR, buf[i]);
             i++;
         }
     }
-    
+
+    set_ptr_vol_bit_u32(&ptr->CR1, CRCNEXT_BIT);    
+}
+
+/* Get An Error */
+bool spi_error(SPI_TypeDef *ptr) {
+    if (get_ptr_vol_bit_u32(&ptr->SR, CRCERR_BIT) || get_ptr_vol_bit_u32(&ptr->SR, MODF_BIT) || get_ptr_vol_bit_u32(&ptr->SR, OVR_BIT)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/* Get The Exact Error Our Of The SR */
+uint32_t spi_error_byte(SPI_TypeDef *ptr) {
+    return get_ptr_vol_u32(&ptr->SR, ERROR_OFFSET, ERROR_MASK);
 }
