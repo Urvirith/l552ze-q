@@ -18,49 +18,6 @@ typedef struct {
     volatile uint32_t TXCRCPR;          // Interrupt And Status Register
 } SPI_TypeDef;
 
-/* Register Masks */
-
-/* CR1 */
-#define BR_MASK             MASK_3_BIT
-/* CR2 */
-#define DS_MASK             MASK_4_BIT
-/* SR */
-#define LVL_MASK            MASK_2_BIT
-#define ERROR_MASK          MASK_3_BIT
-
-/* Register Bits */
-
-/* CR1 */
-#define CPHA_BIT            BIT_0
-#define CPOL_BIT            BIT_1
-#define MSTR_BIT            BIT_2
-#define SPE_BIT             BIT_6
-#define LSB_FIRST_BIT       BIT_7
-#define CRCL_BIT            BIT_11
-#define CRCNEXT_BIT         BIT_12
-#define CRCEN_BIT           BIT_13
-/* CR2 */
-#define FRXTH_BIT           BIT_12
-/* SR */
-#define RXNE_BIT            BIT_0
-#define TXE_BIT             BIT_1
-#define CRCERR_BIT          BIT_4
-#define MODF_BIT            BIT_5
-#define OVR_BIT             BIT_6
-#define BSY_BIT             BIT_7
-#define FRE_BIT             BIT_8
-
-/* Register Offsets */
-
-/* CR1 */
-#define BR_OFFSET           3
-/* CR2 */
-#define DS_OFFSET           8
-/* SR */
-#define ERROR_OFFSET        4
-#define FRLVL_OFFSET        9
-#define FTLVL_OFFSET        11
-
 /* Enumerations */
 
 // Baud Rate Control 000: fPCLK/2 001: fPCLK/4 010: fPCLK/8 011: fPCLK/16 100: fPCLK/32 101: fPCLK/64 110: fPCLK/128 111: fPCLK/256

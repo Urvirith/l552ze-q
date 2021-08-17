@@ -6,6 +6,7 @@
 #include "hal/gpio.h"
 #include "hal/timer.h"
 #include "hal/usart.h"
+#include "hal/spi.h"
 #include "hal/nvic.h"
 #include "routine/axis.h"
 #include "main.h"
@@ -32,6 +33,7 @@ extern void _system_init() {
     rcc_write_apb1_enr1(RCC, RCC_TIMER2_APB1R1EN);
     rcc_write_apb1_enr1(RCC, RCC_TIMER3_APB1R1EN);
     rcc_write_apb1_enr1(RCC, RCC_USART3_APB1R1EN);
+    rcc_write_apb2_enr(RCC, RCC_SPI1_APB2REN);
 }
 
 extern void _start() { 
@@ -64,6 +66,15 @@ extern void _start() {
     gpio_type(GPIOD, USART3_TX, USART_MODE, USART_OTYPE, USART_AF);
     gpio_type(GPIOD, USART3_RX, USART_MODE, USART_OTYPE, USART_AF);
     usart_open(USART3, USART_8_Bits, USART_1_StopBit, USART_921600_BAUD, 16000, USART_Oversample_16);
+
+    /* SPI Setup */
+    gpio_type(GPIOB, SPI1_MISO, SPI_MODE, SPI_OTYPE, SPI_AF);
+    gpio_type(GPIOB, SPI1_MOSI, SPI_MODE, SPI_OTYPE, SPI_AF);
+    gpio_type(GPIOB, SPI1_SCK, SPI_MODE, SPI_OTYPE, SPI_AF);
+    gpio_type(GPIOA, SPI1_NSS, SPI_MODE, SPI_OTYPE, SPI_AF);
+    gpio_type(GPIOA, SPI1_SS, Gpio_Input, Gpio_Push_Pull, 0);
+    spi_open(SPI1, SPI_Div_16, SPI_RisingEdgeClockLow, SPI_Msb, SPI_Bits_8);
+
     /* PIN SETUP */
     gpio_type(GPIOF, DIR_Z_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
     gpio_type(GPIOF, DIR_Y_AXIS, Gpio_Output, Gpio_Push_Pull, 0);
@@ -78,6 +89,9 @@ extern void _start() {
     
 
     uint8_t buf[8] = {0x03, 0x01, 0x02, 0x03 ,0x04, 0x05, 0x06, 0x0D};
+    uint8_t spi_obuf[4] = {0x03, 0x06, 0x04, 0x0D};
+    uint8_t spi_ibuf[4] = {0x00, 0x00, 0x00, 0x00};
+
     bool flip = 0;
 
     motorcontoller.MOTOR1.COUNT = 200;
@@ -156,6 +170,15 @@ extern void _start() {
             }
            
             buf[1] = i;
+
+            spi_enable(SPI1);
+            spi_write(SPI1, spi_obuf, 4);
+            spi_disable(SPI1);
+            spi_read(SPI1, spi_ibuf, 4);
+
+            spi_obuf[1] = i;
+
+            usart_write(USART3, spi_ibuf, 4);
             usart_write(USART3, buf, 8);
 
             timer_clr_flag(TIMER2);

@@ -1,6 +1,51 @@
 #include "common.h"
 #include "spi.h"
 
+/* Register Masks */
+
+/* CR1 */
+#define BR_MASK             MASK_3_BIT
+/* CR2 */
+#define DS_MASK             MASK_4_BIT
+/* SR */
+#define LVL_MASK            MASK_2_BIT
+#define ERROR_MASK          MASK_3_BIT
+
+/* Register Bits */
+
+/* CR1 */
+#define CPHA_BIT            BIT_0
+#define CPOL_BIT            BIT_1
+#define MSTR_BIT            BIT_2
+#define SPE_BIT             BIT_6
+#define LSB_FIRST_BIT       BIT_7
+#define SSI_BIT             BIT_8
+#define SSM_BIT             BIT_9
+#define CRCL_BIT            BIT_11
+#define CRCNEXT_BIT         BIT_12
+#define CRCEN_BIT           BIT_13
+/* CR2 */
+#define FRXTH_BIT           BIT_12
+/* SR */
+#define RXNE_BIT            BIT_0
+#define TXE_BIT             BIT_1
+#define CRCERR_BIT          BIT_4
+#define MODF_BIT            BIT_5
+#define OVR_BIT             BIT_6
+#define BSY_BIT             BIT_7
+#define FRE_BIT             BIT_8
+
+/* Register Offsets */
+
+/* CR1 */
+#define BR_OFFSET           3
+/* CR2 */
+#define DS_OFFSET           8
+/* SR */
+#define ERROR_OFFSET        4
+#define FRLVL_OFFSET        9
+#define FTLVL_OFFSET        11
+
 /* SPI Setup */
 /*
     1.Write proper GPIO registers: Configure GPIO for MOSI, MISO and SCK pins.
@@ -63,6 +108,8 @@ void spi_open(SPI_TypeDef *ptr, SPI_BaudRate br, SPI_ClockSetup cs, SPI_BitFirst
     
     set_ptr_vol_bit_u32(&ptr->CR1, CRCL_BIT);                /* Set CRC To 8-Bit */
     set_ptr_vol_bit_u32(&ptr->CR1, CRCEN_BIT);               /* Set CRC Enabled  */
+    set_ptr_vol_bit_u32(&ptr->CR1, SSI_BIT);                /* Set CRC To 8-Bit */
+    set_ptr_vol_bit_u32(&ptr->CR1, SSM_BIT); 
     set_ptr_vol_bit_u32(&ptr->CR1, MSTR_BIT);                /* Set Master Mode  */
     set_ptr_vol_u32(&ptr->CR2, DS_OFFSET, DS_MASK, ds);      /* Set Datasize     */
 }
@@ -107,7 +154,7 @@ uint32_t spi_read(SPI_TypeDef *ptr, uint8_t* buf, int len) {
     uint32_t t = 0; // Time Out Rotation
     
     while(i < len) {
-        if (spi_get_read(ptr)) {
+        if (get_ptr_vol_u32(&ptr->SR, FRLVL_OFFSET, LVL_MASK) != 0) {
             buf[i] = get_ptr_vol_raw_u8((volatile uint8_t *)&ptr->DR);
             t = 0;
             i++;
@@ -128,7 +175,7 @@ void spi_write(SPI_TypeDef *ptr, uint8_t* buf, int len) {
     uint32_t i = 0;
     
     while(i < len) {
-        if (get_ptr_vol_u32(&ptr->SR, FTLVL_OFFSET, LVL_MASK) < 3) {
+        if (get_ptr_vol_u32(&ptr->SR, FTLVL_OFFSET, LVL_MASK) != 3) {
             set_ptr_vol_raw_u8((volatile uint8_t *)&ptr->DR, buf[i]);
             i++;
         }

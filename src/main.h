@@ -12,6 +12,7 @@
 #define TIMER3              ((TIMER_TypeDef *) TIMER3_BASE)
 #define TIMER4              ((TIMER_TypeDef *) TIMER4_BASE)
 #define USART3              ((USART_TypeDef *) USART3_BASE)
+#define SPI1                ((SPI_TypeDef *) SPI1_BASE)
 #define NVIC                ((NVIC_TypeDef *) NVIC_BASE)
 
 void loop(bool dir, GPIO_TypeDef * dir_ptr, uint32_t pin_dir, GPIO_TypeDef * pulse_ptr, uint32_t pin_pulse, uint32_t steps);

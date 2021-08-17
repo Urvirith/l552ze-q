@@ -76,6 +76,8 @@
 #define GPIOA_PIN9                  (uint32_t)9                             /* USER RED LED on GPIO A Bus, Pin 9    */
 #define LED_RED_PIN                 GPIOA_PIN9                              /* USER RED LED on GPIO A Bus, Pin 9    */
 #define LED_RED                     BIT_9                                   /* USER RED LED on GPIO A Bus, Pin 9    */
+
+/* PWM Motor Driver Pins */
 #define GPIOF_PIN7                  (uint32_t)7                             /* USER PIN on GPIO F Bus, Pin 7        */
 #define GPIOF_PIN8                  (uint32_t)8                             /* USER PIN on GPIO F Bus, Pin 8        */
 #define GPIOF_PIN9                  (uint32_t)9                             /* USER PIN on GPIO F Bus, Pin 9        */
@@ -88,7 +90,6 @@
 #define DIR_Z_AXIS_PIN              BIT_8
 #define DIR_Y_AXIS_PIN              BIT_7
 #define DIR_X_AXIS_PIN              BIT_9
-
 
 /* TIMER3 PWM CH1 */
 #define GPIOE_PIN3                  (uint32_t)3                             /* PWM TIMER 3 on GPIO E Bus, Pin 3   */
@@ -127,9 +128,25 @@
 #define USART_OTYPE                 Gpio_Push_Pull
 #define USART_AF                    AF7
 
+/* SPI (Serial Peripheral Interface) */
 /* SPI 1*/
 /* RCC */
-//#define RCC_SPI1_APB2REN:         BIT12
+#define RCC_SPI1_APB2REN            BIT_12
+#define GPIOB_PIN4                  (uint32_t)4                             /* GPIO Bus B Pin 4 MISO  */
+#define GPIOB_PIN5                  (uint32_t)5                             /* GPIO Bus B Pin 5 MOSI  */
+#define GPIOB_PIN3                  (uint32_t)3                             /* GPIO Bus B Pin 3 SCK   */
+#define GPIOA_PIN4                  (uint32_t)4                             /* GPIO Bus A Pin 4 NSS   */
+#define GPIOA_PIN7                  (uint32_t)7                             /* GPIO Bus A Pin 7 SS - D11  */
+#define SPI1_MISO                   GPIOB_PIN4
+#define SPI1_MOSI                   GPIOB_PIN5
+#define SPI1_SCK                    GPIOB_PIN3
+#define SPI1_NSS                    GPIOA_PIN4
+#define SPI1_SS                     GPIOA_PIN7                              /* This Is An Input */
+
+/* GPIO SETUP */
+#define SPI_MODE                    Gpio_Alternate
+#define SPI_OTYPE                   Gpio_Push_Pull
+#define SPI_AF                      AF5
 
 /* SPI 2*/
 /* RCC */
