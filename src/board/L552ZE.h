@@ -43,7 +43,7 @@
 #define I2C1_BASE                   ((uint32_t)0x40005400)
 #define I2C2_BASE                   ((uint32_t)0x40005800)
 #define I2C3_BASE                   ((uint32_t)0x40005C00)
-#define I2C3_BASE                   ((uint32_t)0x40008400)
+#define I2C4_BASE                   ((uint32_t)0x40008400)
 
 /* Serial Peripheral Interface */
 #define SPI1_BASE                   ((uint32_t)0x40013000)
@@ -52,9 +52,6 @@
 
 /* CAN Interface */
 #define CAN_BASE                    ((uint32_t)0x4000AC00)
-
-/* USB-C Interface */
-#define UCPD_BASE                    ((uint32_t)0x4000DC00)
 
 /* System Control Base */
 #define SCS_BASE                    ((uint32_t)0xE000E000)
