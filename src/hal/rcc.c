@@ -1,6 +1,19 @@
 #include "common.h"
 #include "rcc.h"
 
+/* Register Masks */
+/* CR */
+#define MSIRANGE_MASK   MASK_4_BIT 
+
+/* Register Bits */
+/* CR */
+#define MSION           BIT_0       
+#define MSIRGSEL        BIT_3
+
+/* Register Offsets */
+/* CR */    
+#define MSIRANGE_OFFSET 4 
+
 /* Reset and Clock Control (RCC) */  
 /* Set the clock speed of the chipset */
 void rcc_write_msi_range(RCC_TypeDef *ptr, MSI_Range freq_khz) {

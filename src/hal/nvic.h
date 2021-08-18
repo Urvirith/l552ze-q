@@ -24,11 +24,7 @@ typedef struct {
 	volatile uint8_t    IPR[480];		// Interrupt Priority Registers
 } NVIC_TypeDef;
 
-#define NVIC_32BIT      (uint32_t)32
-#define NVIC_8BIT       (uint32_t)8
-#define NVIC_ARRAYSIZE  (uint32_t)16
-#define NVIC_IPR_SIZE   (uint32_t)480
-
+/* Public Functions */
 void nvic_enable_interrupt(NVIC_TypeDef *ptr, uint32_t irq_num);
 void nvic_set_priority(NVIC_TypeDef *ptr, uint32_t irq_num, uint8_t priority, uint8_t sub_priority);
 

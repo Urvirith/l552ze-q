@@ -2,7 +2,6 @@
 #include "spi.h"
 
 /* Register Masks */
-
 /* CR1 */
 #define BR_MASK             MASK_3_BIT
 /* CR2 */
@@ -12,7 +11,6 @@
 #define ERROR_MASK          MASK_3_BIT
 
 /* Register Bits */
-
 /* CR1 */
 #define CPHA_BIT            BIT_0
 #define CPOL_BIT            BIT_1
@@ -36,7 +34,6 @@
 #define FRE_BIT             BIT_8
 
 /* Register Offsets */
-
 /* CR1 */
 #define BR_OFFSET           3
 /* CR2 */

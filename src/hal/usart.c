@@ -131,8 +131,6 @@ int usart_read(USART_TypeDef *ptr, uint8_t* buf, int len){
     }
 }
 
-
-
 // p. 1202
 // Character transmission procedure
 // 1. Program the M bits in USART_CR1 to define the word length.
@@ -147,7 +145,6 @@ int usart_read(USART_TypeDef *ptr, uint8_t* buf, int len){
 // 8. After writing the last data into the USART_TDR register, wait until TC=1.
 //    This indicates that the transmission of the last frame is complete.
 //    This is required for instance when the USART is disabled or enters the Halt mode to avoid corrupting the last transmission.
-
 void usart_write(USART_TypeDef *ptr, uint8_t* buf, int len){
     set_ptr_vol_bit_u32(&ptr->CR1, TE_BIT);
 

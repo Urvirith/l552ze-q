@@ -21,7 +21,6 @@ typedef struct {
 /* Enumerations */
 
 // Baud Rate Control 000: fPCLK/2 001: fPCLK/4 010: fPCLK/8 011: fPCLK/16 100: fPCLK/32 101: fPCLK/64 110: fPCLK/128 111: fPCLK/256
-
 /* Enumeration For Baud Rate Divisor */
 typedef enum spi_baud_rate {
     SPI_Div_2,
@@ -43,7 +42,6 @@ typedef enum spi_baud_rate {
 // 1111: 16-bit
 // If software attempts to write one of the “Not used” values, 
 // they are forced to the value “0111”(8-bit)
-
 /* Enumeration For Word Size */
 typedef enum spi_data_size {
     SPI_Bits_4      = 0x03,
@@ -63,7 +61,6 @@ typedef enum spi_data_size {
 
 // CPHA = 0 READS THE FIRST BIT ON RISING EDGE OF CLOCK, CPHA = 1 READS THE FIRST BIT ON FALLING EDGE OF CLOCK
 // CPOL IS HOW THE CLOCK BEHAVES, CPOL = TRUE, CLOCK IS HIGH UNTIL USED, FALSE CLOCK IS LOW UNTILL USED
-
 /* Enumeration For Clock Setup */
 typedef enum spi_clock_setup {
     SPI_RisingEdgeClockLow,
@@ -73,7 +70,6 @@ typedef enum spi_clock_setup {
 } SPI_ClockSetup;
 
 // Least Significant Bit First, Most Significiant Bit First
-
 /* Enumeration For Bit Transmission Setup */
 typedef enum spi_bit_first {
     SPI_Msb,
@@ -81,7 +77,6 @@ typedef enum spi_bit_first {
 } SPI_BitFirst;
 
 /* Public Functions */
-
 void spi_open(SPI_TypeDef *ptr, SPI_BaudRate br, SPI_ClockSetup cs, SPI_BitFirst bit, SPI_DataSize ds);
 void spi_enable(SPI_TypeDef *ptr);
 void spi_disable(SPI_TypeDef *ptr);

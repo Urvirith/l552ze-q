@@ -1,6 +1,11 @@
 #include "common.h"
 #include "nvic.h"
 
+#define NVIC_32BIT      (uint32_t)32
+#define NVIC_8BIT       (uint32_t)8
+#define NVIC_ARRAYSIZE  (uint32_t)16
+#define NVIC_IPR_SIZE   (uint32_t)480
+
 /* Private Functions */
 static uint32_t nvic_get_reg(uint32_t irq_num);
 static uint32_t nvic_get_bit(uint32_t irq_num);

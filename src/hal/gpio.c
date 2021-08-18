@@ -1,6 +1,18 @@
 #include "common.h"
 #include "gpio.h"
 
+/* Register Masks */
+#define MODER_MASK          MASK_2_BIT      /* Mode is mask required, here we set the mask to two bit 11 */
+#define OSPEED_MASK         MASK_2_BIT      /* Mode is mask required, here we set the mask to two bit 11 */
+#define PUPD_MASK           MASK_2_BIT      /* Mode is mask required, here we set the mask to two bit 11 */
+#define AF_MASK             MASK_4_BIT      /* Mode is mask required, here we set the mask to four bit 1111 */
+
+/* Register Offsets */
+#define MODER_OFFSET        2               /* Mode is two bits wide, shift by an offset of 2 */
+#define OSPEED_OFFSET       2               /* Output Speed is two bits wide, shift by an offset of 2 */
+#define PUPD_OFFSET         2               /* Pu Speed is two bits wide, shift by an offset of 2 */
+#define AF_OFFSET           4               /* Alternate Function is four bits wide, shift by an offset of 4 */
+
 bool gpio_get_pin(GPIO_TypeDef *ptr, uint32_t value){
     return get_ptr_vol_bit_u32(&ptr->IDR, value);
 }
