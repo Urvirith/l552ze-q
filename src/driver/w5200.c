@@ -1,4 +1,5 @@
-#include "../../hal/common.h"
+#include "../hal/common.h"
+#include "../hal/spi.h"
 #include "w5200.h"
 
 /* WIZNET is MSB,
@@ -99,3 +100,8 @@
 /* Destination Port */
 #define SOCK_DPORTR1        0x4010
 #define SOCK_DPORTR2        0x4011
+
+/* Open The SPI Driver For The W5200 */ 
+void w5200_open(W5200_TypeDef *ptr, SPI_TypeDef *spi) {
+    spi_open(spi, SPI_Div_16, SPI_RisingEdgeClockLow, SPI_Msb, SPI_Bits_8);
+}
