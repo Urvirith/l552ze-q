@@ -110,3 +110,7 @@ reset:
 
 hard_reset:
 	STM32_Programmer_CLI -c port=SWD -hardRst
+
+setup:
+	mkdir obj
+	mkdir build
