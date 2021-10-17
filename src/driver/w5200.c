@@ -58,7 +58,7 @@
 #define IR2                 0x0034
 
 /* Physical Status Register */
-#define IR2                 0x0035
+#define PSTATUS             0x0035
 
 
 /* Socket Registers */
