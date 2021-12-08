@@ -1,7 +1,7 @@
 // Main Call To The The Processor
 
 #include "hal/common.h"
-#include "board/L552ZE.h"
+#include "board/l552ze.h"
 #include "hal/rcc.h"
 #include "hal/gpio.h"
 #include "hal/timer.h"
