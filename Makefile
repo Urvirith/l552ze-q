@@ -1,25 +1,28 @@
 # ARM GCC COMPILER CALL
-CC		    := arm-none-eabi-gcc		# c compiler
-AS			:= arm-none-eabi-as			# assembler
-LD 			:= arm-none-eabi-ld 		# linker
-OBJ 		:= arm-none-eabi-objcopy	# Object Copy
+
+# Toolchain To Use
+TOOLCHAIN	:= arm-none-eabi-
+CC		    := $(TOOLCHAIN)gcc		# c compiler
+AS			:= $(TOOLCHAIN)as		# assembler
+LD 			:= $(TOOLCHAIN)ld 		# linker
+OBJ 		:= $(TOOLCHAIN)objcopy	# Object Copy
 
 # -Os				Optimize for Size
 # -mcpu=cortex-m4	Compile for the ARM M4 Processor
 # mthumb			Target the MTHUMB Instruction Set
-CFLAGS	  	:= -Os -mcpu=cortex-m33 -mthumb
-ASFLAGS		:= -mcpu=cortex-m33 -mthumb
+TARGET_ARCH := -mcpu=cortex-m33
+CFLAGS	  	:= -Os $(TARGET_ARCH) -mthumb
+ASFLAGS		:= $(TARGET_ARCH) -mthumb
 LDFLAGS 	:= -T 
 OBJFLAGS	:= -O binary
 
 SRC_DIR   	:= ./src
 HAL_DIR   	:= ./src/hal
 I2C_DRI   	:= ./src/driver/i2c
-BLD_DIR 	:= ./build
-SRC_DIR   	:= ./src
 LINK_DIR 	:= ./src/linker
 START_DIR	:= ./src/startup
 OBJ_DIR		:= ./obj
+BIN_DIR	  	:= ./bin
 
 #ONLY ONE
 STARTUP		:= startup_ARMCM33.s
@@ -69,22 +72,18 @@ OBJS =	$(OBJ_DIR)/common.o \
 #			(All Source)
 #	%.o: 	%.c %.h common.h
 #		$(CC) $(CFLAGS) -c $^
-release: $(BLD_DIR)/main.bin
+release: $(BIN_DIR)/main.bin
 
 # Build An ELF 
-$(BLD_DIR)/main.bin: $(BLD_DIR)/main.elf
+$(BIN_DIR)/main.bin: $(BIN_DIR)/main.elf
 	$(OBJ) $(OBJFLAGS) $^ $@
 
 # Build An ELF 
-$(BLD_DIR)/main.elf: $(LINK_DIR)/$(LINKER) $(BLD_DIR)/main.o $(BLD_DIR)/startup.o
+$(BIN_DIR)/main.elf: $(LINK_DIR)/$(LINKER) $(OBJS) $(BIN_DIR)/startup.o
 	$(LD) -Os -s $(LDFLAGS) $^ -o $@
 
-# Build An Single Object 
-$(BLD_DIR)/main.o: $(OBJS)
-	$(LD) -r $^ -o $@
-
 # Build Dependances
-$(BLD_DIR)/startup.o: $(START_DIR)/$(STARTUP)
+$(BIN_DIR)/startup.o: $(START_DIR)/$(STARTUP)
 	$(AS) $< $(ASFLAGS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(SRC_DIR)/%.h
@@ -95,9 +94,9 @@ $(OBJ_DIR)/%.o: $(HAL_DIR)/%.c $(HAL_DIR)/%.h $(HAL_DIR)/common.h
 
 clean:
 	rm -f $(OBJ_DIR)/*.o
-	rm -f $(BLD_DIR)/*.o
-	rm -f $(BLD_DIR)/*.elf
-	rm -f $(BLD_DIR)/*.bin
+	rm -f $(BIN_DIR)/*.o
+	rm -f $(BIN_DIR)/*.elf
+	rm -f $(BIN_DIR)/*.bin
 
 flash:
 	STM32_Programmer_CLI -c port=SWD -w $(BLD_DIR)/main.bin 0x08000000
@@ -113,4 +112,7 @@ hard_reset:
 
 setup:
 	mkdir obj
-	mkdir build
+	mkdir bin
+
+# To Move The Rules
+#sudo cp ./rules/*.rules /etc/udev/rules.d/
