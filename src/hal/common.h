@@ -93,7 +93,7 @@ typedef enum msi_range {
 
 /* Public Functions */
 /* 32-Bit Functions */
-bool get_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t offset);                              /* Get a pointer bit in a u32 ptr Example value (10000 >> 5) -> 1 */
+bool get_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t value);                               /* Get a pointer bit in a u32 ptr Example value (10000 >> 5) -> 1 */
 void set_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t value);                               /* Set a pointer bit in a u32 ptr Example value (1 << 5) */
 void clr_ptr_vol_bit_u32(volatile uint32_t *ptr, uint32_t value);                               /* Clear a pointer bit in a u32 ptr Example value (1 << 5) */
 uint32_t get_ptr_vol_u32(volatile uint32_t *ptr, uint32_t offset, uint32_t mask);               /* Get a pointer bit in a u32 ptr Example value (10000 >> 5) -> 1 */
